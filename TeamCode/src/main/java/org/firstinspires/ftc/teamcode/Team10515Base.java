@@ -1,22 +1,36 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
+import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
+import org.firstinspires.ftc.robotcore.external.navigation.VuMarkInstanceId;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 
 public abstract class Team10515Base extends LinearOpMode {
 
     /* Declare OpMode members. */
-    TestTeamHardwarePushbot  robot   = new TestTeamHardwarePushbot();   // Use a Pushbot's hardware
-    ElapsedTime runtime = new ElapsedTime();
+    Team10515HW     robot   = new Team10515HW();   // Use our Team 10515 hardware
+    ElapsedTime     runtime = new ElapsedTime();
+    
+    public static final String TAG = "Vuforia VuMark Sample";
 
+    OpenGLMatrix lastLocation = null;
 
+    VuforiaLocalizer vuforia;
 
     public void goStraight(double speed, double period){
 
-        robot.leftFrontMotor.setPower(speed);
-        robot.rightFrontMotor.setPower(speed);
+        robot.leftMotor.setPower(speed);
+        robot.rightMotor.setPower(speed);
+
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < period)) {
             telemetry.addData("Path", "Leg 2: %2.5f S Elapsed", runtime.seconds());
@@ -26,8 +40,9 @@ public abstract class Team10515Base extends LinearOpMode {
 
     public void goBack(double speed, double period){
 
-        robot.leftFrontMotor.setPower(-speed);
-        robot.rightFrontMotor.setPower(-speed);
+        robot.leftMotor.setPower(-speed);
+        robot.rightMotor.setPower(-speed);
+
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < period)) {
             telemetry.addData("Path", "Leg 2: %2.5f S Elapsed", runtime.seconds());
@@ -38,8 +53,9 @@ public abstract class Team10515Base extends LinearOpMode {
     public void turnRight(double speed, double period){
 
         //  Spin right x seconds
-        robot.leftFrontMotor.setPower(-speed);
-        robot.rightFrontMotor.setPower(speed);
+        robot.leftMotor.setPower(-speed);
+        robot.rightMotor.setPower(speed);
+
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < period)) {
             telemetry.addData("Path", "Leg 2: %2.5f S Elapsed", runtime.seconds());
@@ -50,8 +66,9 @@ public abstract class Team10515Base extends LinearOpMode {
     public void turnLeft(double speed, double period){
 
         //  Spin Left for x seconds
-        robot.leftFrontMotor.setPower(speed);
-        robot.rightFrontMotor.setPower(-speed);
+        robot.leftMotor.setPower(speed);
+        robot.rightMotor.setPower(-speed);
+
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < period)) {
             telemetry.addData("Path", "Leg 2: %2.5f S Elapsed", runtime.seconds());
@@ -61,23 +78,185 @@ public abstract class Team10515Base extends LinearOpMode {
     }
 
     public void stopRobot(){
-        robot.leftFrontMotor.setPower(0);
-        robot.rightFrontMotor.setPower(0);
+        robot.leftMotor.setPower(0.0);
+        robot.rightMotor.setPower(0.0);
+
+        robot.hWheel.setPower(0.0);
+
 
     }
-    public void handUp(){
-        robot.hand.setPosition(0);
+    public void handUp()
+    {
+
+        robot.hand.setPosition(-.5);
     }
     public void handDown()
     {
-    robot.hand.setPosition(.5);
+
+        robot.hand.setPosition(.50);
     }
     public void clawOpen()
     {
-        robot.claw.setPosition(1);
+
+       robot.claw.setPosition(1);
     }
     public void clawClose()
     {
-        robot.claw.setPosition(0);
+       robot.claw.setPosition(0);
     }
+
+    public void hLeft(double speed,double time)
+    {
+        robot.hWheel.setPower(speed);
+    }
+    public void hRight(double speed,double time)
+    {
+        robot.hWheel.setPower(-speed);
+    }
+
+   /* public void calibrateGyro() {
+        // Start calibrating the gyro. This takes a few seconds and is worth performing
+        // during the initialization phase at the start of each opMode.
+        telemetry.log().clear();
+        telemetry.addData("Gyro Calibrating. Do Not Move %s","!");
+        telemetry.update();
+
+
+
+        if (robot.gyroSensor instanceof ModernRoboticsI2cGyro){
+            telemetry.addData("modern robotics gyro","true");
+            telemetry.update();
+            sleep(3000);
+        }else{
+            telemetry.addData(" modern robotics gyro","false");
+            telemetry.update();
+            sleep(3000);
+        }
+        robot.gyroSensor.calibrate();
+
+        // Wait until the gyro calibration is complete
+        runtime.reset();
+        while (!isStopRequested() && robot.gyroSensor.isCalibrating()) {
+            telemetry.addData("calibrating", "%s", Math.round(runtime.seconds()) % 2 == 0 ? "|.." : "..|");
+            telemetry.update();
+            sleep(50);
+        }
+        robot.gyroSensor.resetZAxisIntegrator();
+
+        int rawX = robot.gyroSensor.rawX();
+        int rawY = robot.gyroSensor.rawY();
+        int rawZ = robot.gyroSensor.rawZ();
+        int heading = robot.gyroSensor.getHeading();
+        //int integratedZ = robot.gyroSensor.getIntegratedZValue();
+        telemetry.clear();
+        telemetry.addData("Values are","%s, %s, %s",rawX,rawY,heading);
+        telemetry.update();
+
+    }*/
+
+    public String vuforiaCapture() {
+        int cameraMonitorViewId = robot.hwMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", robot.hwMap.appContext.getPackageName());
+        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
+
+        parameters.vuforiaLicenseKey = "AeYAHIn/////AAAAGfVr1aFjUEHlh1uCvvWMJFtG8Y1D0YvNXpfCJTXkpgrNedm+jaqR+2trR9dGNzyeuHUMqo42P7DuJIp1IPDBDF5oepx6kw121V3vAc3sR5F43oix5brWapqdLcvFYcdFmWqg3AvIy436p1bkMhhJgcVEzXzIususTncxlVaHDDohnS9zN38qFcbFeKWH8cLG8lbt+2sNqoGJgOQ1/Oq6wEf3ceIS1x2BsguyUtkPLG0OQALkjbktRMdfLHe34ldDuCddP1ekNgkvwauoxOJqYKJKZX15h3VZfRtnp4mArn6Bxx8vWITXm690wfsdAio1LrRGm+NBovMapDxs9IKJuiH53nEoYrvat8IGG9IhMp67";
+
+        /*
+         * We also indicate which camera on the RC that we wish to use.
+         * Here we chose the back (HiRes) camera (for greater range), but
+         * for a competition robot, the front camera might be more convenient.
+         */
+        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
+        this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
+
+        /**
+         * Load the data set containing the VuMarks for Relic Recovery. There's only one trackable
+         * in this data set: all three of the VuMarks in the game were created from this one template,
+         * but differ in their instance id information.
+         * @see VuMarkInstanceId
+         */
+        VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
+        VuforiaTrackable relicTemplate = relicTrackables.get(0);
+        relicTemplate.setName("relicVuMarkTemplate"); // can help in debugging; otherwise not necessary
+
+        relicTrackables.activate();
+        int i = 0;
+        RelicRecoveryVuMark vuMark = null;
+        while (i < 3) {
+            i++;
+            telemetry.addData("i","%s", i);
+            sleep(2000);
+            vuMark = RelicRecoveryVuMark.from(relicTemplate);
+            if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
+
+                /* Found an instance of the template. In the actual game, you will probably
+                 * loop until this condition occurs, then move on to act accordingly depending
+                 * on which VuMark was visible. */
+                telemetry.addData("VuMark", "%s visible", vuMark);
+            }
+            else
+            {
+                telemetry.addData("VuMark", "not visible");
+            }
+
+            telemetry.update();
+        }
+        return vuMark.toString();
+    }
+
+    public void initialize()
+    {
+        robot.init(hardwareMap);
+        robot.colorSensor.enableLed(true);
+       // calibrateGyro();
+        sleep(2000);
+
+
+
+        // Send telemetry message to signify robotrt waiting;
+        telemetry.addData("Status", "Ready to run");    //
+        telemetry.update();
+
+    }
+
+        public String colorSense()
+        {
+            String color = "NOT READ";
+            ElapsedTime time = new ElapsedTime();
+            time.reset();
+
+            while (time.time() < 3) {
+                if (robot.colorSensor.red() > robot.colorSensor.blue() + 3)
+                {
+
+                    telemetry.addData("color", "RED");
+                    telemetry.update();
+                    color = "RED";
+
+                    break;
+
+                }
+                else if (robot.colorSensor.blue() > robot.colorSensor.red() + 3)
+                {
+
+                    telemetry.addData("color", "BLUE");
+                    telemetry.update();
+
+                    color = "BLUE";
+
+                    break;
+
+                }
+                else
+                {
+                    telemetry.addData("color", "UNKNOWN");
+                    telemetry.update();
+
+                    color = "UNKNOWN";
+                }
+            }
+
+            robot.colorSensor.enableLed(false);
+            return color;
+        }
+
 }

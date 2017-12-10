@@ -29,19 +29,17 @@ import java.util.concurrent.TimeUnit;
  * This program will go straight  hit the capball  and park the bot at the center vertex
  */
 
-@Autonomous(name="Autonomous: Test Red", group="Pushbot")
-
-public class TestAuto extends Team10515Base {
+@Autonomous(name="XtremeV Red", group="Team10515")
+public class Team10515AutoRed extends Team10515Base {
 
     static final double     INIT_FORWARD_SPEED = 0.1;
     static final double     FORWARD_SPEED = 0.2;
     static final double     BACKWARD_SPEED = 0.1;
-    static final double     TURN_SPEED    = 0.5;
+    static final double     TURN_SPEED    = 0.1;
 
 
     boolean redColor = false;
     boolean blueColor = false;
-
 
     public static final String TAG = "Vuforia VuMark Sample";
 
@@ -64,6 +62,9 @@ public class TestAuto extends Team10515Base {
          * The init() method of the hardware class does all the work here
          */
         robot.init(hardwareMap);
+        //robot.colorSensor.enableLed(false);
+        //calibrateGyro();
+        //sleep(2000);
 
         // Send telemetry message to signify robotrt waiting;
         telemetry.addData("Status", "Ready to run");    //
@@ -71,46 +72,88 @@ public class TestAuto extends Team10515Base {
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-       calibrateGyro();
-        //sleep(5000);
-         String glyphPosition = vuforiaCapture();
+
+        String glyphPosition = vuforiaCapture();
         telemetry.addData("The position is" ,glyphPosition);
         telemetry.update();
         handDown();
-        clawClose();
-        robot.colorSensor.enableLed(true);
-        if (robot.colorSensor.red() > robot.colorSensor.blue() + 3)
-        {
-            redColor = true;
-            turnRight(TURN_SPEED,.2);
-            handUp();
-            turnLeft(TURN_SPEED,.2);
-        } else if (robot.colorSensor.blue() > robot.colorSensor.red() + 3) {
-            blueColor = true;
-            turnLeft(TURN_SPEED,.2);
-            handUp();
-            turnRight(TURN_SPEED,.2);
-        } else {
-            telemetry.addData("color", "UNKNOWN");
-            telemetry.update();
-            handUp();
+        sleep(100);
+        //clawClose();
+        ElapsedTime time = new ElapsedTime();
+        time.reset();
 
+        robot.colorSensor.enableLed(true);
+        while (time.time() < 3) {
+            if (robot.colorSensor.red() > robot.colorSensor.blue() + 3) {
+                redColor = true;
+                telemetry.addData("color", "RED");
+                telemetry.update();
+                goStraight(FORWARD_SPEED,1.0);
+                stopRobot();
+                    break;
+      //     turnRight(TURN_SPEED,.3);
+
+                //        turnLeft(TURN_SPEED,.2);
+            } else if (robot.colorSensor.blue() > robot.colorSensor.red() + 3) {
+                blueColor = true;
+                telemetry.addData("color", "BLUE");
+                telemetry.update();
+                goBack(BACKWARD_SPEED,0.8);
+                stopRobot();
+
+                //      turnLeft(TURN_SPEED,.2);
+                //    handUp();
+                //  turnRight(TURN_SPEED,.2);
+            } else {
+                telemetry.addData("color", "UNKNOWN");
+                telemetry.update();
+                //          handUp();
+
+            }
         }
         robot.colorSensor.enableLed(false);
-        //Vuforia read image
-        goStraight(FORWARD_SPEED,.5);
-        stopRobot();
-         while (robot.gyroSensor.getHeading() < 359)
+        //sleep(1000);
+        handUp();
+
+        goStraight(FORWARD_SPEED,1.0);
+        if (glyphPosition == "LEFT")
         {
-            turnLeft(TURN_SPEED,.1);
+            goBack(BACKWARD_SPEED,.1);
+        }
+        else if (glyphPosition == "CENTER")
+        {
+            hRight(FORWARD_SPEED, .5);
+        }
+        else if (glyphPosition == "RIGHT")
+        {
+            hLeft(FORWARD_SPEED,1.0);
+        }
+        else
+        {
+            telemetry.addData("Glyph","Random Placement into LEFT");
+            telemetry.update();
+
+        }
+       //telemetry.addData("Heading is",robot.gyroSensor.getHeading());
+        //telemetry.update();
+        //sleep(5000);
+        stopRobot();
+        //Vuforia read image
+/*
+        goStraight(FORWARD_SPEED,.4);
+        stopRobot();
+
+         while (robot.gyroSensor.getHeading() < 358)
+        {
+            turnLeft(TURN_SPEED,1);
         }
         if (glyphPosition == ("LEFT"))
         {
-            turnLeft(INIT_FORWARD_SPEED,.2);
+            hLeft(INIT_FORWARD_SPEED,.2);
         }
         else if (glyphPosition.equals("RIGHT"))
         {
-            turnRight(INIT_FORWARD_SPEED,.2);
+            hRight(INIT_FORWARD_SPEED,.2);
         }
         else if (glyphPosition.equals("CENTER"))
         {
@@ -125,13 +168,27 @@ public class TestAuto extends Team10515Base {
        // turnRight(TURN_SPEED,0.15);
       //  goStraight(FORWARD_SPEED,.5);
         //stopRobot();
-
+*/
     }
 
-    public void calibrateGyro() {
+ /*   public void calibrateGyro() {
         // Start calibrating the gyro. This takes a few seconds and is worth performing
         // during the initialization phase at the start of each opMode.
-        telemetry.log().add("Gyro Calibrating. Do Not Move!");
+        telemetry.log().clear();
+        telemetry.addData("Gyro Calibrating. Do Not Move %s","!");
+        telemetry.update();
+
+
+
+        if (robot.gyroSensor instanceof  ModernRoboticsI2cGyro){
+            telemetry.addData("modern robotics gyro","true");
+            telemetry.update();
+            sleep(3000);
+        }else{
+            telemetry.addData(" modern robotics gyro","false");
+            telemetry.update();
+            sleep(3000);
+        }
         robot.gyroSensor.calibrate();
 
         // Wait until the gyro calibration is complete
@@ -139,19 +196,21 @@ public class TestAuto extends Team10515Base {
         while (!isStopRequested() && robot.gyroSensor.isCalibrating()) {
             telemetry.addData("calibrating", "%s", Math.round(runtime.seconds()) % 2 == 0 ? "|.." : "..|");
             telemetry.update();
-
+            sleep(50);
         }
-    robot.gyroSensor.resetZAxisIntegrator();
+        robot.gyroSensor.resetZAxisIntegrator();
+
         int rawX = robot.gyroSensor.rawX();
         int rawY = robot.gyroSensor.rawY();
         int rawZ = robot.gyroSensor.rawZ();
         int heading = robot.gyroSensor.getHeading();
         //int integratedZ = robot.gyroSensor.getIntegratedZValue();
-
+        telemetry.clear();
         telemetry.addData("Values are","%s, %s, %s",rawX,rawY,heading);
+        telemetry.update();
 
     }
-
+*/
     public String vuforiaCapture() {
         int cameraMonitorViewId = robot.hwMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", robot.hwMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);

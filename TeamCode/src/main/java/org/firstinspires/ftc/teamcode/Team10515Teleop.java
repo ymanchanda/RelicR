@@ -1,23 +1,17 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.robot.Robot;
-import com.qualcomm.robotcore.util.Range;
 
 
 @TeleOp(name="XtremeV Teleop", group="Team10515")
-public class TeamTeleopTank_Iterative extends OpMode{
+public class Team10515Teleop extends OpMode{
 
     /* Declare OpMode members. */
-    TeamHardwarePushbot robot       = new TeamHardwarePushbot(); // use the class created to define a Pushbot's hardware
+    Team10515HW robot       = new Team10515HW(); // use the class created to define a Pushbot's hardware
                                                          // could also use HardwarePushbotMatrix class.
-   double          clawOffset  = 0.0 ;                  // Servo mid position
+    double          clawOffset  = 0.0 ;                  // Servo mid position
     final double    CLAW_SPEED  = 0.025 ;                 // sets rate to move servo
-
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -64,12 +58,12 @@ public class TeamTeleopTank_Iterative extends OpMode{
         //double Arm;
 
         // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
-      //  right = -gamepad1.left_stick_y;
+        //right = -gamepad1.left_stick_y;
         //left = -gamepad1.right_stick_y;
 
         drive = -gamepad1.left_stick_y;
-        turn  =  gamepad1.left_stick_x;
-        hWheel = gamepad1.right_stick_x;
+        turn  =  gamepad1.right_stick_x;
+        //hWheel = gamepad1.right_stick_x;
         //Arm = gamepad1.right_stick_y;
 
         // Combine drive and turn for blended motion.
@@ -84,44 +78,34 @@ public class TeamTeleopTank_Iterative extends OpMode{
             right /= max;
         }
 
-        //robot.leftFrontMotor.setPower(left);
-        //robot.rightFrontMotor.setPower(right);
-       robot.rightBackMotor.setPower(right);
-        robot.leftBackMotor.setPower(left);
-        robot.hWheel.setPower(hWheel/2);
-        //robot.upMotor.setPower(Arm);
+        robot.rightMotor.setPower(right);
+        robot.leftMotor.setPower(left);
+
+        if (gamepad1.dpad_left)
+            robot.hWheel.setPower(0.4);
+        else if (gamepad1.dpad_right)
+            robot.hWheel.setPower(-0.4);
+        else
+            robot.hWheel.setPower(0.0);
 
         // Use gamepad X & b buttons to open and close the claw
-       if (gamepad1.a){
-            clawOffset = clawOffset + 0.025;
+       if (gamepad1.b){
+            clawOffset = clawOffset + 0.010;
             if (clawOffset > 1) clawOffset = 1;
             robot.claw.setPosition(1 - clawOffset);
-            //robot.rightClaw.setPosition(clawOffset);
-        } else if (gamepad1.y) {
-            clawOffset = clawOffset - 0.025;
+        } else if (gamepad1.x) {
+            clawOffset = clawOffset - 0.010;
             if (clawOffset < 0) clawOffset = 0;
             robot.claw.setPosition(1 - clawOffset);
-           // robot.rightClaw.setPosition(clawOffset);
         }
 
-
         // Use gamepad buttons to move the arm up (Y) and down (A)
-        if (gamepad1.b) {
+        if (gamepad1.a) {
             robot.liftMotor.setPower(robot.ARM_UP_POWER);
-        }else if (gamepad1.x) {
+        }else if (gamepad1.y) {
             robot.liftMotor.setPower(robot.ARM_DOWN_POWER);
         }else {
             robot.liftMotor.setPower(0.0);
-        }
-
-
-        // Use to move the sweeper
-       if (gamepad2.a) {
-            robot.upMotor.setPower(robot.ARM_UP_POWER);
-        }else if (gamepad2.y) {
-            robot.upMotor.setPower(robot.ARM_DOWN_POWER);
-        } else {
-            robot.upMotor.setPower(0.0);
         }
 
         // Send telemetry message to signify robot running;

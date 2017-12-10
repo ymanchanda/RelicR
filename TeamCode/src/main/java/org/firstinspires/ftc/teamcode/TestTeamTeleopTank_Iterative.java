@@ -55,7 +55,7 @@ public class TestTeamTeleopTank_Iterative extends OpMode{
         double drive;
         double turn;
         double max;
-       // double hWheel;
+        double hWheel;
         //double Arm;
 
         // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
@@ -64,7 +64,7 @@ public class TestTeamTeleopTank_Iterative extends OpMode{
 
         drive = -gamepad1.left_stick_y;
         turn  =  gamepad1.left_stick_x;
-       // hWheel = gamepad1.right_stick_x;
+        hWheel = gamepad1.right_stick_x;
         //Arm = gamepad1.right_stick_y;
 
         // Combine drive and turn for blended motion.
@@ -79,15 +79,15 @@ public class TestTeamTeleopTank_Iterative extends OpMode{
             right /= max;
         }
 
-        robot.leftFrontMotor.setPower(left);
-        robot.rightFrontMotor.setPower(right);
-      // robot.rightBackMotor.setPower(right);
-        //robot.leftBackMotor.setPower(left);
-        //robot.hWheel.setPower(hWheel/2);
+        robot.leftMotor.setPower(left);
+        robot.rightMotor.setPower(right);
+       // robot.rightRearMotor.setPower(right);
+        //robot.leftRearMotor.setPower(left);
+        robot.hWheelMotor.setPower(hWheel/2);
         //robot.upMotor.setPower(Arm);
 
         // Use gamepad X & b buttons to open and close the claw
-       if (gamepad1.a){
+     /*  if (gamepad1.a){
             clawOffset = clawOffset + 0.025;
             if (clawOffset > 1) clawOffset = 1;
             robot.claw.setPosition(1 - clawOffset);
@@ -98,7 +98,7 @@ public class TestTeamTeleopTank_Iterative extends OpMode{
             robot.claw.setPosition(1 - clawOffset);
            // robot.rightClaw.setPosition(clawOffset);
         }
-
+*/
 
         // Use gamepad buttons to move the arm up (Y) and down (A)
       /*  if (gamepad1.b) {
@@ -111,14 +111,14 @@ public class TestTeamTeleopTank_Iterative extends OpMode{
 */
 
         // Use to move the sweeper
-       if (gamepad2.a) {
+      /* if (gamepad2.a) {
             robot.upMotor.setPower(robot.ARM_UP_POWER);
         }else if (gamepad2.y) {
             robot.upMotor.setPower(robot.ARM_DOWN_POWER);
         } else {
-            robot.upMotor.setPower(0.0);
+           // robot.upMotor.setPower(0.0);
         }
-
+*/
         // Send telemetry message to signify robot running;
         //telemetry.addData("claw",  "Offset = %.2f", clawOffset);
         //telemetry.addData("left",  "%.2f", left);

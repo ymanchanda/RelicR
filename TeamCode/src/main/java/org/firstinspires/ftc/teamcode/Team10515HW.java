@@ -1,18 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
 
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.IntegratingGyroscope;
-import com.qualcomm.robotcore.util.ElapsedTime;
-
 import com.qualcomm.robotcore.hardware.Servo;
-
+import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 
 /**
  * This is NOT an opmode.
@@ -26,55 +20,40 @@ import com.qualcomm.robotcore.hardware.Servo;
  * Servo channel:  Servo to open left claw:  "left_hand"
  * Servo channel:  Servo to open right claw: "right_hand"
  */
-public class TestTeamHardwarePushbot
-
+public class Team10515HW
 {
-    boolean bLedOn = false;
-
     /* Public OpMode members. */
-    public DcMotor  leftMotor   = null;
-    public DcMotor  rightMotor  = null;
-    public DcMotor  hWheelMotor = null;
-
+    //public DcMotor  leftFrontMotor   = null;
+    //public DcMotor  rightFrontMotor  = null;
+    public DcMotor  rightMotor = null;
+    public DcMotor  leftMotor = null;
+    public DcMotor  hWheel = null;
     public DcMotor  liftMotor    = null;
-    //public DcMotor relicMotor = null;
-    public Servo    claw    = null;
     public Servo    hand   = null;
+    public Servo    claw = null;
 
     ColorSensor colorSensor     = null;
-  //  GyroSensor gyroSensor = null;
-   // ModernRoboticsI2cGyro modernRoboticsI2cGyro;
 
     static final String  LEFT_MOTOR = "LMotor";
     static final String  RIGHT_MOTOR = "RMotor";
-    static final String  H_WHEEL_MOTOR = "HMotor";
-
+    static final String  H_WHEEL = "HWheel";
     static final String  LIFT_MOTOR = "LiftMotor";
-    static final String  CLAW = "Claw";
-    static final String  HAND = "Hand";
+    static final String  Claw = "Claw";
+    static final String  Hand = "Hand";
     static final String  COLOR_SENSOR = "Color";
-   //static final String  GYRO_SENSOR = "Gyro";
 
 
-   // public static final double MID_SERVO       =  0.5 ;
-   public static final double ARM_UP_POWER    =  0.5 ;
-    public static final double ARM_DOWN_POWER  = -0.5 ;
+    public static final double ARM_UP_POWER    =  0.25 ;
+    public static final double ARM_DOWN_POWER  = -0.25;
 
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
     private ElapsedTime period  = new ElapsedTime();
 
-    // bLedOn represents the state of the LED.
-   // boolean bLedOn = false;
-
     /* Constructor */
-    public TestTeamHardwarePushbot(){
+    public Team10515HW(){
 
     }
-        public void add(int x, int y)
-        {
-           System.out.print(x + y) ;
-        }
 
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap ahwMap) {
@@ -82,45 +61,43 @@ public class TestTeamHardwarePushbot
         hwMap = ahwMap;
 
         // Define and Initialize Motors
+        //leftFrontMotor   = hwMap.dcMotor.get(LEFT_FRONT_MOTOR);
+        //rightFrontMotor  = hwMap.dcMotor.get(RIGHT_FRONT_MOTOR);
         leftMotor   = hwMap.dcMotor.get(LEFT_MOTOR);
         rightMotor  = hwMap.dcMotor.get(RIGHT_MOTOR);
-        hWheelMotor = hwMap.dcMotor.get(H_WHEEL_MOTOR);
-        //modernRoboticsI2cGyro = hardwareMap.get(ModernRoboticsI2cGyro.class, "gyro");
-        liftMotor    = hwMap.dcMotor.get(LIFT_MOTOR);
-        //upMotor    = hwMap.dcMotor.get(UP_MOTOR);
-        claw       = hwMap.servo.get(CLAW);
-        hand       = hwMap.servo.get(HAND);
+        hWheel      = hwMap.dcMotor.get(H_WHEEL);
+        liftMotor   = hwMap.dcMotor.get(LIFT_MOTOR);
+        claw   = hwMap.servo.get(Claw);
+        hand   = hwMap.servo.get(Hand);
+
         colorSensor = hwMap.colorSensor.get(COLOR_SENSOR);
-        //gyroSensor = hwMap.gyroSensor.get(GYRO_SENSOR);
 
-        leftMotor.setDirection(DcMotor.Direction.FORWARD); // Set to FORWARD
-        rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to REVERSE
-        //rightRearMotor.setDirection(DcMotor.Direction.REVERSE);// Set to REVERSE
-        hWheelMotor.setDirection((DcMotor.Direction.REVERSE));
+        leftMotor.setDirection(DcMotor.Direction.REVERSE);
+        rightMotor.setDirection((DcMotor.Direction.FORWARD));
+        hWheel.setDirection((DcMotor.Direction.REVERSE));
+        liftMotor.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD
 
-        liftMotor.setDirection( DcMotor.Direction.FORWARD);// Set to FORWARD
-        //upMotor.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD
-        // claw.setDirection(Servo.Direction.REVERSE);
-        hand.setDirection(Servo.Direction.FORWARD);
-        // disable the  color sensor LED in the beginning
-        colorSensor.enableLed(bLedOn);
+        colorSensor.enableLed(false);
+
+        //claw.setDirection(Servo.Direction.REVERSE);
+        //hand.setDirection(Servo.Direction.REVERSE);
 
         // Set all motors to zero power
-        leftMotor.setPower(0);
         rightMotor.setPower(0);
-        hWheelMotor.setPower(0);
+        leftMotor.setPower(0);
+        hWheel.setPower(0);
         liftMotor.setPower(0);
-        //upMotor.setPower(0);
-        claw.setPosition(.5);
-        //hand.setPosition(.7);
+
+        claw.setPosition(1);
+        hand.setPosition(0);
+
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
         leftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        hWheelMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
+        hWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        //sweeperMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
     }
 
     /***
@@ -143,9 +120,5 @@ public class TestTeamHardwarePushbot
         // Reset the cycle clock for the next pass.
         period.reset();
     }
-
-
-
 }
-
 
