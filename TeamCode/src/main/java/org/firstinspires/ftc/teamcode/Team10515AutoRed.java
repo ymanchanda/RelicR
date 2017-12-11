@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcontroller.external.samples.ConceptVuforiaNavigation;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.Func;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -23,6 +24,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -33,8 +35,8 @@ import java.util.concurrent.TimeUnit;
 public class Team10515AutoRed extends Team10515Base {
 
     static final double     INIT_FORWARD_SPEED = 0.1;
-    static final double     FORWARD_SPEED = 0.2;
-    static final double     BACKWARD_SPEED = 0.1;
+    static final double     FORWARD_SPEED = 0.4;
+    static final double     BACKWARD_SPEED = 0.4;
     static final double     TURN_SPEED    = 0.1;
 
 
@@ -64,6 +66,14 @@ public class Team10515AutoRed extends Team10515Base {
         robot.init(hardwareMap);
         //robot.colorSensor.enableLed(false);
         //calibrateGyro();
+        Orientation angles   = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+        String angle = formatAngle(angles.angleUnit, angles.firstAngle);
+
+        telemetry.addData("heading",angle);
+        telemetry.addData("firstAngle",angles.firstAngle);
+
+
         //sleep(2000);
 
         // Send telemetry message to signify robotrt waiting;
@@ -73,7 +83,7 @@ public class Team10515AutoRed extends Team10515Base {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-        String glyphPosition = vuforiaCapture();
+       String glyphPosition = vuforiaCapture();
         telemetry.addData("The position is" ,glyphPosition);
         telemetry.update();
         handDown();
@@ -83,31 +93,26 @@ public class Team10515AutoRed extends Team10515Base {
         time.reset();
 
         robot.colorSensor.enableLed(true);
-        while (time.time() < 3) {
+     //   while (opModeIsActive()) {
+       while (time.time() < 10) {
             if (robot.colorSensor.red() > robot.colorSensor.blue() + 3) {
                 redColor = true;
                 telemetry.addData("color", "RED");
                 telemetry.update();
-                goStraight(FORWARD_SPEED,1.0);
-                stopRobot();
-                    break;
-      //     turnRight(TURN_SPEED,.3);
+                goStraight(FORWARD_SPEED,1.3);
+               stopRobot();
+                break;
 
-                //        turnLeft(TURN_SPEED,.2);
             } else if (robot.colorSensor.blue() > robot.colorSensor.red() + 3) {
                 blueColor = true;
                 telemetry.addData("color", "BLUE");
                 telemetry.update();
-                goBack(BACKWARD_SPEED,0.8);
+                goBack(BACKWARD_SPEED,0.8) ;
                 stopRobot();
-
-                //      turnLeft(TURN_SPEED,.2);
-                //    handUp();
-                //  turnRight(TURN_SPEED,.2);
+                break;
             } else {
                 telemetry.addData("color", "UNKNOWN");
                 telemetry.update();
-                //          handUp();
 
             }
         }
@@ -115,7 +120,28 @@ public class Team10515AutoRed extends Team10515Base {
         //sleep(1000);
         handUp();
 
-        goStraight(FORWARD_SPEED,1.0);
+
+        angles   = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        angle = formatAngle(angles.angleUnit, angles.firstAngle);
+
+
+        if (angles.firstAngle > 2.0  ) {
+
+            turnRight(0.3,0.2);
+
+            angles   = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+        }else  if (angles.firstAngle < -2.0  ) {
+            turnLeft(0.3,0.2);
+
+        }
+
+            telemetry.addData("heading",angle);
+        telemetry.addData("firstAngle",angles.firstAngle);
+        telemetry.update();
+        sleep(2000);
+
+       // goStraight(FORWARD_SPEED,1.0);
         if (glyphPosition == "LEFT")
         {
             goBack(BACKWARD_SPEED,.1);
@@ -261,6 +287,13 @@ public class Team10515AutoRed extends Team10515Base {
     }
 
 
+    String formatAngle(AngleUnit angleUnit, double angle) {
+        return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
+    }
+
+    String formatDegrees(double degrees){
+        return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
+    }
 
 
 }

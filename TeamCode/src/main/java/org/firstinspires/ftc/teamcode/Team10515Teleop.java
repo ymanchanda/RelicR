@@ -105,7 +105,7 @@ public class Team10515Teleop extends OpMode{
         }else if (gamepad1.y) {
             robot.liftMotor.setPower(robot.ARM_DOWN_POWER);
         }else {
-            robot.liftMotor.setPower(0.0);
+           // robot.liftMotor.setPower(0.0);
         }
 
         // Send telemetry message to signify robot running;

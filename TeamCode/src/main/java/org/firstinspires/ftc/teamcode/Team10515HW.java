@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -32,7 +34,8 @@ public class Team10515HW
     public Servo    hand   = null;
     public Servo    claw = null;
 
-    ColorSensor colorSensor     = null;
+    public ColorSensor colorSensor     = null;
+    public BNO055IMU imu = null;
 
     static final String  LEFT_MOTOR = "LMotor";
     static final String  RIGHT_MOTOR = "RMotor";
@@ -41,6 +44,9 @@ public class Team10515HW
     static final String  Claw = "Claw";
     static final String  Hand = "Hand";
     static final String  COLOR_SENSOR = "Color";
+    static final String IMU_SENSOR = "imu";
+
+
 
 
     public static final double ARM_UP_POWER    =  0.25 ;
@@ -61,42 +67,55 @@ public class Team10515HW
         hwMap = ahwMap;
 
         // Define and Initialize Motors
-        //leftFrontMotor   = hwMap.dcMotor.get(LEFT_FRONT_MOTOR);
-        //rightFrontMotor  = hwMap.dcMotor.get(RIGHT_FRONT_MOTOR);
         leftMotor   = hwMap.dcMotor.get(LEFT_MOTOR);
         rightMotor  = hwMap.dcMotor.get(RIGHT_MOTOR);
         hWheel      = hwMap.dcMotor.get(H_WHEEL);
-        liftMotor   = hwMap.dcMotor.get(LIFT_MOTOR);
-        claw   = hwMap.servo.get(Claw);
+    //    liftMotor   = hwMap.dcMotor.get(LIFT_MOTOR);
+   //     claw   = hwMap.servo.get(Claw);
         hand   = hwMap.servo.get(Hand);
 
         colorSensor = hwMap.colorSensor.get(COLOR_SENSOR);
 
+
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
         rightMotor.setDirection((DcMotor.Direction.FORWARD));
         hWheel.setDirection((DcMotor.Direction.REVERSE));
-        liftMotor.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD
+     //   liftMotor.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD
 
         colorSensor.enableLed(false);
 
         //claw.setDirection(Servo.Direction.REVERSE);
-        //hand.setDirection(Servo.Direction.REVERSE);
+        hand.setDirection(Servo.Direction.REVERSE);
 
         // Set all motors to zero power
         rightMotor.setPower(0);
         leftMotor.setPower(0);
         hWheel.setPower(0);
-        liftMotor.setPower(0);
+        //liftMotor.setPower(0);
 
-        claw.setPosition(1);
-        hand.setPosition(0);
+       // claw.setPosition(1);
+        hand.setPosition(1);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
         leftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         hWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+      //  liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
+        parameters.loggingEnabled      = true;
+        parameters.loggingTag          = "IMU";
+        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+
+        // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
+        // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
+        // and named "imu".
+        imu = hwMap.get(BNO055IMU.class, IMU_SENSOR);
+        imu.initialize(parameters);
 
     }
 

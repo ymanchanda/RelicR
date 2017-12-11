@@ -53,8 +53,8 @@ public abstract class Team10515Base extends LinearOpMode {
     public void turnRight(double speed, double period){
 
         //  Spin right x seconds
-        robot.leftMotor.setPower(-speed);
-        robot.rightMotor.setPower(speed);
+        robot.leftMotor.setPower(speed);
+        robot.rightMotor.setPower(-speed);
 
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < period)) {
@@ -66,8 +66,8 @@ public abstract class Team10515Base extends LinearOpMode {
     public void turnLeft(double speed, double period){
 
         //  Spin Left for x seconds
-        robot.leftMotor.setPower(speed);
-        robot.rightMotor.setPower(-speed);
+        robot.leftMotor.setPower(-speed);
+        robot.rightMotor.setPower(speed);
 
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < period)) {
@@ -88,12 +88,12 @@ public abstract class Team10515Base extends LinearOpMode {
     public void handUp()
     {
 
-        robot.hand.setPosition(-.5);
+        robot.hand.setPosition(1.0);
     }
     public void handDown()
     {
 
-        robot.hand.setPosition(.50);
+        robot.hand.setPosition(.1);
     }
     public void clawOpen()
     {
