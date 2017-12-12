@@ -7,6 +7,10 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuMarkInstanceId;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
@@ -17,16 +21,19 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 public abstract class Team10515Base extends LinearOpMode {
 
     /* Declare OpMode members. */
-    Team10515HW     robot   = new Team10515HW();   // Use our Team 10515 hardware
-    ElapsedTime     runtime = new ElapsedTime();
-    
+    Team10515HW robot = new Team10515HW();   // Use our Team 10515 hardware
+    ElapsedTime runtime = new ElapsedTime();
+
     public static final String TAG = "Vuforia VuMark Sample";
+    public static final double ARM_DOWN_POWER  = 0.3;
+    public static final double ARM_UP_POWER  = -0.3;
+
 
     OpenGLMatrix lastLocation = null;
 
     VuforiaLocalizer vuforia;
 
-    public void goStraight(double speed, double period){
+    public void goStraight(double speed, double period) {
 
         robot.leftMotor.setPower(speed);
         robot.rightMotor.setPower(speed);
@@ -38,7 +45,7 @@ public abstract class Team10515Base extends LinearOpMode {
         }
     }
 
-    public void goBack(double speed, double period){
+    public void goBack(double speed, double period) {
 
         robot.leftMotor.setPower(-speed);
         robot.rightMotor.setPower(-speed);
@@ -50,7 +57,7 @@ public abstract class Team10515Base extends LinearOpMode {
         }
     }
 
-    public void turnRight(double speed, double period){
+    public void turnRight(double speed, double period) {
 
         //  Spin right x seconds
         robot.leftMotor.setPower(speed);
@@ -63,7 +70,7 @@ public abstract class Team10515Base extends LinearOpMode {
         }
     }
 
-    public void turnLeft(double speed, double period){
+    public void turnLeft(double speed, double period) {
 
         //  Spin Left for x seconds
         robot.leftMotor.setPower(-speed);
@@ -77,7 +84,7 @@ public abstract class Team10515Base extends LinearOpMode {
 
     }
 
-    public void stopRobot(){
+    public void stopRobot() {
         robot.leftMotor.setPower(0.0);
         robot.rightMotor.setPower(0.0);
 
@@ -85,32 +92,31 @@ public abstract class Team10515Base extends LinearOpMode {
 
 
     }
-    public void handUp()
-    {
+
+    public void handUp() {
 
         robot.hand.setPosition(1.0);
     }
-    public void handDown()
-    {
+
+    public void handDown() {
 
         robot.hand.setPosition(.1);
     }
-    public void clawOpen()
-    {
 
-       robot.claw.setPosition(1);
-    }
-    public void clawClose()
-    {
-       robot.claw.setPosition(0);
+    public void clawOpen() {
+
+        robot.claw.setPosition(1);
     }
 
-    public void hLeft(double speed,double time)
-    {
+    public void clawClose() {
+        robot.claw.setPosition(0);
+    }
+
+    public void hLeft(double speed, double time) {
         robot.hWheel.setPower(speed);
     }
-    public void hRight(double speed,double time)
-    {
+
+    public void hRight(double speed, double time) {
         robot.hWheel.setPower(-speed);
     }
 
@@ -183,7 +189,7 @@ public abstract class Team10515Base extends LinearOpMode {
         RelicRecoveryVuMark vuMark = null;
         while (i < 3) {
             i++;
-            telemetry.addData("i","%s", i);
+            telemetry.addData("i", "%s", i);
             sleep(2000);
             vuMark = RelicRecoveryVuMark.from(relicTemplate);
             if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
@@ -192,9 +198,7 @@ public abstract class Team10515Base extends LinearOpMode {
                  * loop until this condition occurs, then move on to act accordingly depending
                  * on which VuMark was visible. */
                 telemetry.addData("VuMark", "%s visible", vuMark);
-            }
-            else
-            {
+            } else {
                 telemetry.addData("VuMark", "not visible");
             }
 
@@ -203,14 +207,18 @@ public abstract class Team10515Base extends LinearOpMode {
         return vuMark.toString();
     }
 
-    public void initialize()
-    {
+    public void initialize() {
         robot.init(hardwareMap);
-        robot.colorSensor.enableLed(true);
-       // calibrateGyro();
+        // calibrateGyro();
+        Orientation angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+        telemetry.addData("heading", angles.firstAngle);
+        telemetry.addData("firstAngle", angles.firstAngle);
+
+        robot.claw.setPosition(1);
+        robot.liftMotor.setPower(ARM_UP_POWER);
+
         sleep(2000);
-
-
 
         // Send telemetry message to signify robotrt waiting;
         telemetry.addData("Status", "Ready to run");    //
@@ -218,45 +226,50 @@ public abstract class Team10515Base extends LinearOpMode {
 
     }
 
-        public String colorSense()
-        {
-            String color = "NOT READ";
-            ElapsedTime time = new ElapsedTime();
-            time.reset();
+    public String colorSense() {
+        robot.colorSensor.enableLed(true);
 
-            while (time.time() < 3) {
-                if (robot.colorSensor.red() > robot.colorSensor.blue() + 3)
-                {
+        String color = "NOT READ";
+        ElapsedTime time = new ElapsedTime();
+        time.reset();
 
-                    telemetry.addData("color", "RED");
-                    telemetry.update();
-                    color = "RED";
-
-                    break;
-
-                }
-                else if (robot.colorSensor.blue() > robot.colorSensor.red() + 3)
-                {
-
-                    telemetry.addData("color", "BLUE");
-                    telemetry.update();
-
-                    color = "BLUE";
-
-                    break;
-
-                }
-                else
-                {
-                    telemetry.addData("color", "UNKNOWN");
-                    telemetry.update();
-
-                    color = "UNKNOWN";
-                }
+        while (time.time() < 5) {
+            if (robot.colorSensor.red() > robot.colorSensor.blue() + 3) {
+                telemetry.addData("color", "RED");
+                telemetry.update();
+                color = "RED";
+                break;
+            } else if (robot.colorSensor.blue() > robot.colorSensor.red() + 3) {
+                telemetry.addData("color", "BLUE");
+                telemetry.update();
+                color = "BLUE";
+                break;
+            } else {
+                telemetry.addData("color", "UNKNOWN");
+                telemetry.update();
+                color = "UNKNOWN";
             }
-
-            robot.colorSensor.enableLed(false);
-            return color;
         }
 
+        robot.colorSensor.enableLed(false);
+        return color;
+    }
+
+    public void repositionBot() {
+
+        Orientation angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+        while (angles.firstAngle > 3.0 || angles.firstAngle < -3.0) {
+            if (angles.firstAngle > 3.0) {
+
+                turnRight(0.3, 0.2);
+
+
+            } else if (angles.firstAngle < -3.0) {
+                turnLeft(0.3, 0.2);
+
+            }
+            angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        }
+    }
 }

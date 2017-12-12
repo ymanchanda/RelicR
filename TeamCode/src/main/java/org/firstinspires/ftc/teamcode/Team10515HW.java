@@ -49,8 +49,8 @@ public class Team10515HW
 
 
 
-    public static final double ARM_UP_POWER    =  0.25 ;
-    public static final double ARM_DOWN_POWER  = -0.25;
+    public static final double ARM_UP_POWER    =  -0.3 ;
+    public static final double ARM_DOWN_POWER  = 0.3;
 
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
@@ -70,8 +70,8 @@ public class Team10515HW
         leftMotor   = hwMap.dcMotor.get(LEFT_MOTOR);
         rightMotor  = hwMap.dcMotor.get(RIGHT_MOTOR);
         hWheel      = hwMap.dcMotor.get(H_WHEEL);
-    //    liftMotor   = hwMap.dcMotor.get(LIFT_MOTOR);
-   //     claw   = hwMap.servo.get(Claw);
+        liftMotor   = hwMap.dcMotor.get(LIFT_MOTOR);
+        claw   = hwMap.servo.get(Claw);
         hand   = hwMap.servo.get(Hand);
 
         colorSensor = hwMap.colorSensor.get(COLOR_SENSOR);
@@ -80,20 +80,20 @@ public class Team10515HW
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
         rightMotor.setDirection((DcMotor.Direction.FORWARD));
         hWheel.setDirection((DcMotor.Direction.REVERSE));
-     //   liftMotor.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD
+        liftMotor.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD
 
         colorSensor.enableLed(false);
 
-        //claw.setDirection(Servo.Direction.REVERSE);
+        claw.setDirection(Servo.Direction.REVERSE);
         hand.setDirection(Servo.Direction.REVERSE);
 
         // Set all motors to zero power
         rightMotor.setPower(0);
         leftMotor.setPower(0);
         hWheel.setPower(0);
-        //liftMotor.setPower(0);
+        liftMotor.setPower(0);
 
-       // claw.setPosition(1);
+        claw.setPosition(1);
         hand.setPosition(1);
 
         // Set all motors to run without encoders.
@@ -101,7 +101,7 @@ public class Team10515HW
         leftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         hWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-      //  liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;

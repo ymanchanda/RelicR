@@ -101,11 +101,11 @@ public class Team10515Teleop extends OpMode{
 
         // Use gamepad buttons to move the arm up (Y) and down (A)
         if (gamepad1.a) {
-            robot.liftMotor.setPower(robot.ARM_UP_POWER);
-        }else if (gamepad1.y) {
             robot.liftMotor.setPower(robot.ARM_DOWN_POWER);
+        }else if (gamepad1.y) {
+            robot.liftMotor.setPower(robot.ARM_UP_POWER);
         }else {
-           // robot.liftMotor.setPower(0.0);
+             robot.liftMotor.setPower(0.0);
         }
 
         // Send telemetry message to signify robot running;

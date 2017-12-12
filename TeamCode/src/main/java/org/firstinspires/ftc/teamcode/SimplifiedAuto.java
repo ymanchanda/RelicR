@@ -14,9 +14,12 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 public class SimplifiedAuto extends Team10515Base {
 
     static final double     INIT_FORWARD_SPEED = 0.1;
-    static final double     FORWARD_SPEED = 0.2;
-    static final double     BACKWARD_SPEED = 0.1;
+    static final double     FORWARD_SPEED = 0.4;
+    static final double     BACKWARD_SPEED = 0.4;
     static final double     TURN_SPEED    = 0.1;
+
+    static final double ARM_UP_POWER = -.03;
+    public static final double ARM_DOWN_POWER  = 0.3;
 
     /**
      * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
@@ -25,8 +28,6 @@ public class SimplifiedAuto extends Team10515Base {
 
     @Override
     public void runOpMode() {
-
-
 
         /*
          * Initialize the drive system variables.
@@ -44,61 +45,58 @@ public class SimplifiedAuto extends Team10515Base {
 
         handDown();
         sleep(100);
-        String COLOR = colorSense();
+        String color = colorSense();
         sleep(2000);
-        handUp();
 
-        if (COLOR == "RED")
+        if (color == "RED")
         {
-            goStraight(FORWARD_SPEED,.5);
+            goStraight(FORWARD_SPEED,1.3);
             stopRobot();
+            handUp();
         }
-        else if (COLOR =="BLUE")
+        else if (color =="BLUE")
         {
-            goBack(BACKWARD_SPEED,.2);
+            goBack(BACKWARD_SPEED,.4);
+            goStraight(BACKWARD_SPEED,1.7);
             stopRobot();
+            handUp();
         }
         else
         {
-            telemetry.addData("Nothing can be done",COLOR);
+            telemetry.addData("Nothing can be done",color);
             telemetry.update();
         }
 
-      //  telemetry.addData("Heading is",robot.gyroSensor.getHeading());
-       // telemetry.update();
-        sleep(5000);
+        repositionBot();
+
+        goStraight(FORWARD_SPEED,.3);
         stopRobot();
 
-/*
-        goStraight(FORWARD_SPEED,.4);
-        stopRobot();
 
-         while (robot.gyroSensor.getHeading() < 358)
-        {
-            turnLeft(TURN_SPEED,1);
-        }
-        if (glyphPosition == ("LEFT"))
-        {
-            hLeft(INIT_FORWARD_SPEED,.2);
-        }
-        else if (glyphPosition.equals("RIGHT"))
-        {
-            hRight(INIT_FORWARD_SPEED,.2);
-        }
-        else if (glyphPosition.equals("CENTER"))
-        {
-            goBack(INIT_FORWARD_SPEED,.2);
-        }
-        else
-        {
-            stopRobot();
-        }
+
         //goStraight(FORWARD_SPEED,1.0);
         //goBack(BACKWARD_SPEED,2.0);
        // turnRight(TURN_SPEED,0.15);
       //  goStraight(FORWARD_SPEED,.5);
         //stopRobot();
-*/
-    }
 
+    }
+        private void glyphPlacement(String glyphPosition)
+        {
+            if (glyphPosition == ("LEFT"))
+            {
+                hRight(INIT_FORWARD_SPEED,.2);
+            }
+            else if (glyphPosition.equals("RIGHT"))
+            {
+                hRight(INIT_FORWARD_SPEED,.6);
+            }
+            else if (glyphPosition.equals("CENTER"))
+            {
+                hRight(INIT_FORWARD_SPEED,.4);
+
+            }
+            goStraight(FORWARD_SPEED,.1);
+            robot.claw.setPosition(0);
+        }
 }
