@@ -14,8 +14,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 public class SimplifiedAuto extends Team10515Base {
 
     static final double     INIT_FORWARD_SPEED = 0.1;
-    static final double     FORWARD_SPEED = 0.4;
-    static final double     BACKWARD_SPEED = 0.4;
+    static final double     FORWARD_SPEED = 0.6;
+    static final double     BACKWARD_SPEED = 0.6;
     static final double     TURN_SPEED    = 0.1;
 
     static final double ARM_UP_POWER = -.03;
@@ -38,28 +38,41 @@ public class SimplifiedAuto extends Team10515Base {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
+        telemetry.addData("REV Red  ", robot.colorSensorRev.red());
+        telemetry.addData("REV Green", robot.colorSensorRev.green());
+        sleep(5000);
         String glyphPosition = vuforiaCapture();
         telemetry.addData("The position is" ,glyphPosition);
         telemetry.update();
         sleep(2000);
-
+        clawClose();
+        liftUp(ARM_DOWN_POWER,.4);
+        stopRobot();
         handDown();
         sleep(100);
         String color = colorSense();
         sleep(2000);
 
-        if (color == "RED")
+        if (color.equals("RED"))
         {
-            goStraight(FORWARD_SPEED,1.3);
+            turnRight(FORWARD_SPEED,0.2);
+           // goStraight(FORWARD_SPEED,0.5);
             stopRobot();
             handUp();
+            turnLeft(FORWARD_SPEED,0.2);
+            stopRobot();
         }
-        else if (color =="BLUE")
+        else if (color.equals("BLUE"))
         {
-            goBack(BACKWARD_SPEED,.4);
-            goStraight(BACKWARD_SPEED,1.7);
+            turnLeft(BACKWARD_SPEED,0.2);
             stopRobot();
             handUp();
+            turnRight(BACKWARD_SPEED,0.2);
+            stopRobot();
+           // goBack(BACKWARD_SPEED,.4);
+           // goStraight(FORWARD_SPEED,1.7);
+         //   stopRobot();
+
         }
         else
         {
@@ -67,23 +80,28 @@ public class SimplifiedAuto extends Team10515Base {
             telemetry.update();
         }
 
-        repositionBot();
+       // repositionBot();
 
-        goStraight(FORWARD_SPEED,.3);
+       goStraight(FORWARD_SPEED,.3);
         stopRobot();
 
+        repositionBot();
 
 
-        //goStraight(FORWARD_SPEED,1.0);
+
+        goStraight(FORWARD_SPEED, .5);
+        glyphPlacement(glyphPosition);
         //goBack(BACKWARD_SPEED,2.0);
        // turnRight(TURN_SPEED,0.15);
       //  goStraight(FORWARD_SPEED,.5);
         //stopRobot();
 
     }
+
+
         private void glyphPlacement(String glyphPosition)
         {
-            if (glyphPosition == ("LEFT"))
+            if (glyphPosition.equals ("LEFT"))
             {
                 hRight(INIT_FORWARD_SPEED,.2);
             }

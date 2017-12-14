@@ -35,6 +35,7 @@ public class Team10515HW
     public Servo    claw = null;
 
     public ColorSensor colorSensor     = null;
+    public ColorSensor colorSensorRev = null;
     public BNO055IMU imu = null;
 
     static final String  LEFT_MOTOR = "LMotor";
@@ -44,13 +45,11 @@ public class Team10515HW
     static final String  Claw = "Claw";
     static final String  Hand = "Hand";
     static final String  COLOR_SENSOR = "Color";
-    static final String IMU_SENSOR = "imu";
+    static final String  COLOR_SENSORREV = "RevColor";
+    static final String  IMU_SENSOR = "imu";
 
-
-
-
-    public static final double ARM_UP_POWER    =  -0.3 ;
-    public static final double ARM_DOWN_POWER  = 0.3;
+    public static final double ARM_UP_POWER    =  0.8 ;
+    public static final double ARM_DOWN_POWER  = -0.6;
 
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
@@ -75,12 +74,12 @@ public class Team10515HW
         hand   = hwMap.servo.get(Hand);
 
         colorSensor = hwMap.colorSensor.get(COLOR_SENSOR);
-
+        colorSensorRev = hwMap.get(ColorSensor.class, COLOR_SENSORREV);
 
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
         rightMotor.setDirection((DcMotor.Direction.FORWARD));
-        hWheel.setDirection((DcMotor.Direction.REVERSE));
-        liftMotor.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD
+        hWheel.setDirection((DcMotor.Direction.FORWARD));
+        liftMotor.setDirection(DcMotor.Direction.REVERSE);
 
         colorSensor.enableLed(false);
 

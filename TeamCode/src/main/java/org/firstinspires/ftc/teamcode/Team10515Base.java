@@ -87,7 +87,7 @@ public abstract class Team10515Base extends LinearOpMode {
     public void stopRobot() {
         robot.leftMotor.setPower(0.0);
         robot.rightMotor.setPower(0.0);
-
+        robot.liftMotor.setPower(0.0);
         robot.hWheel.setPower(0.0);
 
 
@@ -114,12 +114,30 @@ public abstract class Team10515Base extends LinearOpMode {
 
     public void hLeft(double speed, double time) {
         robot.hWheel.setPower(speed);
+        while (opModeIsActive() && (runtime.seconds() <= time)) {
+            telemetry.addData("Path", "Leg 2: %2.5f S Elapsed", runtime.seconds());
+            telemetry.update();
+        }
     }
 
-    public void hRight(double speed, double time) {
+    public void hRight(double speed, double time)
+    {
         robot.hWheel.setPower(-speed);
+        while (opModeIsActive() && (runtime.seconds() < time)) {
+            telemetry.addData("Path", "Leg 2: %2.5f S Elapsed", runtime.seconds());
+            telemetry.update();
+        }
     }
 
+    public void liftUp(double speed, double time)
+    {
+        robot.liftMotor.setPower(speed);
+
+        while (opModeIsActive() && (runtime.seconds() <= time)) {
+            telemetry.addData("Path", "Leg 2: %2.5f S Elapsed", runtime.seconds());
+            telemetry.update();
+        }
+    }
    /* public void calibrateGyro() {
         // Start calibrating the gyro. This takes a few seconds and is worth performing
         // during the initialization phase at the start of each opMode.
@@ -216,7 +234,7 @@ public abstract class Team10515Base extends LinearOpMode {
         telemetry.addData("firstAngle", angles.firstAngle);
 
         robot.claw.setPosition(1);
-        robot.liftMotor.setPower(ARM_UP_POWER);
+       // robot.liftMotor.setPower(ARM_UP_POWER);
 
         sleep(2000);
 

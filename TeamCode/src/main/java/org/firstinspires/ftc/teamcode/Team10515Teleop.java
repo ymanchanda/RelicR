@@ -82,9 +82,9 @@ public class Team10515Teleop extends OpMode{
         robot.leftMotor.setPower(left);
 
         if (gamepad1.dpad_left)
-            robot.hWheel.setPower(0.4);
+            robot.hWheel.setPower(0.6);
         else if (gamepad1.dpad_right)
-            robot.hWheel.setPower(-0.4);
+            robot.hWheel.setPower(-0.6);
         else
             robot.hWheel.setPower(0.0);
 
