@@ -24,15 +24,17 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
  */
 public class Team10515HW
 {
-    /* Public OpMode members. */
-    //public DcMotor  leftFrontMotor   = null;
-    //public DcMotor  rightFrontMotor  = null;
+
     public DcMotor  rightMotor = null;
     public DcMotor  leftMotor = null;
     public DcMotor  hWheel = null;
     public DcMotor  liftMotor    = null;
+    public DcMotor  relicSlideMotor    = null;
+
     public Servo    hand   = null;
     public Servo    claw = null;
+    public Servo    relicHold = null;
+    public Servo    relicArm = null;
 
     public ColorSensor colorSensor     = null;
     public ColorSensor colorSensorRev = null;
@@ -42,14 +44,21 @@ public class Team10515HW
     static final String  RIGHT_MOTOR = "RMotor";
     static final String  H_WHEEL = "HWheel";
     static final String  LIFT_MOTOR = "LiftMotor";
+    static final String  RELIC_SLIDE_MOTOR = "RelicSlideMotor";
     static final String  Claw = "Claw";
     static final String  Hand = "Hand";
+    static final String  RELIC_HOLD = "RelicHold";
+    static final String  RELIC_ARM = "RelicArm";
+
     static final String  COLOR_SENSOR = "Color";
     static final String  COLOR_SENSORREV = "RevColor";
     static final String  IMU_SENSOR = "imu";
 
-    public static final double ARM_UP_POWER    =  1.0 ;
-    public static final double ARM_DOWN_POWER  = -1.0;
+    public static final double LIFT_UP_POWER    =  1.0 ;
+    public static final double LIFT_DOWN_POWER  = -1.0;
+    public static final double SLIDE_OUT_POWER    =  .3 ;
+    public static final double SLIDE_IN_POWER  = -.1;
+
 
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
@@ -70,8 +79,12 @@ public class Team10515HW
         rightMotor  = hwMap.dcMotor.get(RIGHT_MOTOR);
         hWheel      = hwMap.dcMotor.get(H_WHEEL);
         liftMotor   = hwMap.dcMotor.get(LIFT_MOTOR);
+        relicSlideMotor = hwMap.dcMotor.get(RELIC_SLIDE_MOTOR);
+
         claw   = hwMap.servo.get(Claw);
         hand   = hwMap.servo.get(Hand);
+        relicArm = hwMap.servo.get(RELIC_ARM);
+        relicHold = hwMap.servo.get(RELIC_HOLD);
 
         colorSensor = hwMap.colorSensor.get(COLOR_SENSOR);
         colorSensorRev = hwMap.get(ColorSensor.class, COLOR_SENSORREV);
@@ -80,20 +93,26 @@ public class Team10515HW
         rightMotor.setDirection((DcMotor.Direction.FORWARD));
         hWheel.setDirection((DcMotor.Direction.FORWARD));
         liftMotor.setDirection(DcMotor.Direction.REVERSE);
+        relicSlideMotor.setDirection(DcMotor.Direction.FORWARD);
 
         colorSensor.enableLed(false);
 
         claw.setDirection(Servo.Direction.REVERSE);
         hand.setDirection(Servo.Direction.REVERSE);
+        relicHold.setDirection(Servo.Direction.REVERSE);
+        relicArm.setDirection(Servo.Direction.REVERSE);
 
         // Set all motors to zero power
         rightMotor.setPower(0);
         leftMotor.setPower(0);
         hWheel.setPower(0);
         liftMotor.setPower(0);
+        relicSlideMotor.setPower(0);
 
         claw.setPosition(1);
         hand.setPosition(1);
+        relicHold.setPosition(0);
+        relicArm.setPosition(0);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
@@ -101,6 +120,7 @@ public class Team10515HW
         rightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         hWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        relicSlideMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;

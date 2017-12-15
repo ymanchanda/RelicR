@@ -1,26 +1,13 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.util.ElapsedTime;
-
-import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 
 /**
- * This program will be used for autonomous Straight mode
- * It uses 2 color sensors.
- *      Rev Sensor is used to detect the platform color
- *      Color sensor is used to detect the jewel color
- * Based on the platform color the bot will move the appropriate jewel
- *      If RED  then  move  the blue jewel
- *      If BLUE then  move  the red  jewel
- *
- * Based on the vuforia reading the bot  will place glyph accordingly
- *
+ * This program will go straight  hit the capball  and park the bot at the center vertex
  */
 
-@Autonomous(name="Auto: Straight", group="Team10515")
-public class Team10515AutoStraight extends Team10515Base {
+@Autonomous(name="Auto: TURN", group="Team10515")
+public class Team10515AutoTurn extends Team10515Base {
 
     static final double     INIT_FORWARD_SPEED = 0.1;
     static final double     FORWARD_SPEED = 0.6;
@@ -54,7 +41,7 @@ public class Team10515AutoStraight extends Team10515Base {
         telemetry.update();
         sleep(1000);
         //clawClose();
-        liftUp(ARM_UP_POWER,1.5);
+        liftUp(ARM_UP_POWER,.6);
         stopRobot();
         handDown();
         sleep(100);
@@ -69,9 +56,8 @@ public class Team10515AutoStraight extends Team10515Base {
 
         //goStraight(FORWARD_SPEED,.3);
         stopRobot();
-        goStraight(FORWARD_SPEED,1.0);
 
-        repositionBot();
+        //repositionBot();
 
         //goStraight(FORWARD_SPEED, .5);
         //glyphPlacement(glyphPosition);
@@ -80,7 +66,7 @@ public class Team10515AutoStraight extends Team10515Base {
       //  goStraight(FORWARD_SPEED,.5);
         //stopRobot();
 
-        liftUp(ARM_DOWN_POWER,1.0);
+        liftUp(ARM_DOWN_POWER,.6);
 
     }
 

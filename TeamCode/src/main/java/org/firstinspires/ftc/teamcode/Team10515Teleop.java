@@ -11,7 +11,12 @@ public class Team10515Teleop extends OpMode{
     Team10515HW robot       = new Team10515HW(); // use the class created to define a Pushbot's hardware
                                                          // could also use HardwarePushbotMatrix class.
     double          clawOffset  = 0.0 ;                  // Servo mid position
+    double          relicholdOffset  = 0.0 ;                  // Servo mid position
+    double          relicarmOffset  = 0.0 ;                  // Servo mid position
     final double    CLAW_SPEED  = 0.025 ;                 // sets rate to move servo
+    final double    RELICHOLD_SPEED  = 0.025 ;                 // sets rate to move servo
+    final double    RELICARM_SPEED  = 0.025 ;                 // sets rate to move servo
+
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -82,9 +87,9 @@ public class Team10515Teleop extends OpMode{
         robot.leftMotor.setPower(left);
 
         if (gamepad1.dpad_left)
-            robot.hWheel.setPower(0.6);
+            robot.hWheel.setPower(-0.8);
         else if (gamepad1.dpad_right)
-            robot.hWheel.setPower(-0.6);
+            robot.hWheel.setPower(0.8);
         else
             robot.hWheel.setPower(0.0);
 
@@ -101,11 +106,44 @@ public class Team10515Teleop extends OpMode{
 
         // Use gamepad buttons to move the arm up (Y) and down (A)
         if (gamepad1.a) {
-            robot.liftMotor.setPower(robot.ARM_DOWN_POWER);
+            robot.liftMotor.setPower(robot.LIFT_DOWN_POWER);
         }else if (gamepad1.y) {
-            robot.liftMotor.setPower(robot.ARM_UP_POWER);
+            robot.liftMotor.setPower(robot.LIFT_UP_POWER);
         }else {
              robot.liftMotor.setPower(0.0);
+        }
+        if (gamepad2.a)
+        {
+            relicarmOffset = relicarmOffset + 0.005;
+            if (relicarmOffset > 1) relicarmOffset = 1;
+            robot.relicArm.setPosition(1 - relicarmOffset);
+        } else if (gamepad2.y) {
+            relicarmOffset = relicarmOffset - 0.005;
+            if (relicarmOffset < 0) relicarmOffset = 0;
+            robot.relicArm.setPosition(1 - relicarmOffset);
+
+        }
+        if (gamepad2.b)
+        {
+            robot.relicSlideMotor.setPower(robot.SLIDE_OUT_POWER);
+        }
+        else if (gamepad2.x)
+        {
+            robot.relicSlideMotor.setPower(robot.SLIDE_IN_POWER);
+        }
+        else
+        {
+            robot.relicSlideMotor.setPower(0);
+        }
+        if (gamepad2.left_bumper)
+        {
+            relicholdOffset = relicholdOffset + 0.010;
+            if (relicholdOffset > 1) relicholdOffset = 1;
+            robot.relicHold.setPosition(1 - relicholdOffset);
+        } else if (gamepad2.right_bumper) {
+            relicholdOffset = relicholdOffset - 0.010;
+            if (relicholdOffset < 0) relicholdOffset = 0;
+            robot.relicHold.setPosition(1 - relicholdOffset);
         }
 
         // Send telemetry message to signify robot running;
