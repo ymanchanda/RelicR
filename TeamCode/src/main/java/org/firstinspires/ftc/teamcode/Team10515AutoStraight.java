@@ -10,16 +10,16 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
  * This program will go straight  hit the capball  and park the bot at the center vertex
  */
 
-@Autonomous(name="Autonomous: Simplified Test", group="Pushbot")
-public class SimplifiedAuto extends Team10515Base {
+@Autonomous(name="Auto: Straight", group="Team10515")
+public class Team10515AutoStraight extends Team10515Base {
 
     static final double     INIT_FORWARD_SPEED = 0.1;
     static final double     FORWARD_SPEED = 0.6;
     static final double     BACKWARD_SPEED = 0.6;
     static final double     TURN_SPEED    = 0.1;
 
-    static final double ARM_UP_POWER = -.03;
-    public static final double ARM_DOWN_POWER  = 0.3;
+    static final double ARM_UP_POWER = 0.3;
+    static final double ARM_DOWN_POWER  = -0.3;
 
     /**
      * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
@@ -38,15 +38,14 @@ public class SimplifiedAuto extends Team10515Base {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-        telemetry.addData("REV Red  ", robot.colorSensorRev.red());
-        telemetry.addData("REV Green", robot.colorSensorRev.green());
-        sleep(5000);
+        String REVColor = colorSenseRev();
+        sleep(100);
         String glyphPosition = vuforiaCapture();
         telemetry.addData("The position is" ,glyphPosition);
         telemetry.update();
-        sleep(2000);
-        clawClose();
-        liftUp(ARM_DOWN_POWER,.4);
+        sleep(1000);
+        //clawClose();
+        liftUp(ARM_UP_POWER,.6);
         stopRobot();
         handDown();
         sleep(100);
@@ -60,7 +59,6 @@ public class SimplifiedAuto extends Team10515Base {
             stopRobot();
             handUp();
             turnLeft(FORWARD_SPEED,0.2);
-            stopRobot();
         }
         else if (color.equals("BLUE"))
         {
@@ -68,7 +66,6 @@ public class SimplifiedAuto extends Team10515Base {
             stopRobot();
             handUp();
             turnRight(BACKWARD_SPEED,0.2);
-            stopRobot();
            // goBack(BACKWARD_SPEED,.4);
            // goStraight(FORWARD_SPEED,1.7);
          //   stopRobot();
@@ -78,23 +75,25 @@ public class SimplifiedAuto extends Team10515Base {
         {
             telemetry.addData("Nothing can be done",color);
             telemetry.update();
+            handUp();
         }
 
-       // repositionBot();
+        stopRobot();
+        // repositionBot();
 
-       goStraight(FORWARD_SPEED,.3);
+        //goStraight(FORWARD_SPEED,.3);
         stopRobot();
 
-        repositionBot();
+        //repositionBot();
 
-
-
-        goStraight(FORWARD_SPEED, .5);
-        glyphPlacement(glyphPosition);
+        //goStraight(FORWARD_SPEED, .5);
+        //glyphPlacement(glyphPosition);
         //goBack(BACKWARD_SPEED,2.0);
        // turnRight(TURN_SPEED,0.15);
       //  goStraight(FORWARD_SPEED,.5);
         //stopRobot();
+
+        liftUp(ARM_DOWN_POWER,.6);
 
     }
 

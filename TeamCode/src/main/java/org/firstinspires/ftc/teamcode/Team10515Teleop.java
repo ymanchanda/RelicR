@@ -67,8 +67,8 @@ public class Team10515Teleop extends OpMode{
         //Arm = gamepad1.right_stick_y;
 
         // Combine drive and turn for blended motion.
-        left  = (drive + turn)/2;
-        right = (drive - turn)/2;
+        left  = (drive - turn);
+        right = (drive + turn);
 
         // Normalize the values so neither exceed +/- 1.0
         max = Math.max(Math.abs(left), Math.abs(right));

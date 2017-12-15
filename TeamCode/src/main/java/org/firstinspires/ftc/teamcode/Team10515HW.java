@@ -48,8 +48,8 @@ public class Team10515HW
     static final String  COLOR_SENSORREV = "RevColor";
     static final String  IMU_SENSOR = "imu";
 
-    public static final double ARM_UP_POWER    =  0.8 ;
-    public static final double ARM_DOWN_POWER  = -0.6;
+    public static final double ARM_UP_POWER    =  1.0 ;
+    public static final double ARM_DOWN_POWER  = -1.0;
 
     /* local OpMode members. */
     HardwareMap hwMap           =  null;

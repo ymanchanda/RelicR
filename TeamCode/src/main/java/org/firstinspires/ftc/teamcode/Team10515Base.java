@@ -25,8 +25,8 @@ public abstract class Team10515Base extends LinearOpMode {
     ElapsedTime runtime = new ElapsedTime();
 
     public static final String TAG = "Vuforia VuMark Sample";
-    public static final double ARM_DOWN_POWER  = 0.3;
-    public static final double ARM_UP_POWER  = -0.3;
+    //public static final double ARM_DOWN_POWER  = 0.3;
+    //public static final double ARM_UP_POWER  = -0.3;
 
 
     OpenGLMatrix lastLocation = null;
@@ -89,18 +89,16 @@ public abstract class Team10515Base extends LinearOpMode {
         robot.rightMotor.setPower(0.0);
         robot.liftMotor.setPower(0.0);
         robot.hWheel.setPower(0.0);
-
-
     }
 
     public void handUp() {
 
-        robot.hand.setPosition(1.0);
+        robot.hand.setPosition(1.5);
     }
 
     public void handDown() {
 
-        robot.hand.setPosition(.1);
+        robot.hand.setPosition(0);
     }
 
     public void clawOpen() {
@@ -114,6 +112,7 @@ public abstract class Team10515Base extends LinearOpMode {
 
     public void hLeft(double speed, double time) {
         robot.hWheel.setPower(speed);
+        runtime.reset();
         while (opModeIsActive() && (runtime.seconds() <= time)) {
             telemetry.addData("Path", "Leg 2: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();
@@ -123,6 +122,7 @@ public abstract class Team10515Base extends LinearOpMode {
     public void hRight(double speed, double time)
     {
         robot.hWheel.setPower(-speed);
+        runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < time)) {
             telemetry.addData("Path", "Leg 2: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();
@@ -132,7 +132,7 @@ public abstract class Team10515Base extends LinearOpMode {
     public void liftUp(double speed, double time)
     {
         robot.liftMotor.setPower(speed);
-
+        runtime.reset();
         while (opModeIsActive() && (runtime.seconds() <= time)) {
             telemetry.addData("Path", "Leg 2: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();
@@ -242,6 +242,32 @@ public abstract class Team10515Base extends LinearOpMode {
         telemetry.addData("Status", "Ready to run");    //
         telemetry.update();
 
+    }
+
+    public String colorSenseRev() {
+
+        String color = "NOT READ";
+        ElapsedTime time = new ElapsedTime();
+        time.reset();
+
+        while (time.time() < 5) {
+            if (robot.colorSensorRev.red() > robot.colorSensorRev.blue() + 10) {
+                telemetry.addData("color rev", "RED");
+                telemetry.update();
+                color = "RED";
+                break;
+            } else if (robot.colorSensorRev.blue() > robot.colorSensorRev.red() + 3) {
+                telemetry.addData("color rev", "BLUE");
+                telemetry.update();
+                color = "BLUE";
+                break;
+            } else {
+                telemetry.addData("color rev", "UNKNOWN");
+                telemetry.update();
+                color = "UNKNOWN";
+            }
+        }
+        return color;
     }
 
     public String colorSense() {
