@@ -260,7 +260,7 @@ public abstract class Team10515Base extends LinearOpMode {
         return color;
     }
 
-    public void repositionBot() {
+    public void repositionBot(double angleDegrees) {
 
         Orientation angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
@@ -268,13 +268,13 @@ public abstract class Team10515Base extends LinearOpMode {
         telemetry.addData("firstAngle", angles.firstAngle);
         telemetry.update();
 
-        while (angles.firstAngle > 3.0 || angles.firstAngle < -3.0) {
-            if (angles.firstAngle > 3.0) {
+        while (angles.firstAngle > angleDegrees || angles.firstAngle < -angleDegrees) {
+            if (angles.firstAngle > angleDegrees) {
 
                 turnRight(0.3, 0.2);
 
 
-            } else if (angles.firstAngle < -3.0) {
+            } else if (angles.firstAngle < -angleDegrees) {
                 turnLeft(0.3, 0.2);
 
             }

@@ -40,7 +40,6 @@ public class Team10515AutoTurn extends Team10515Base {
         telemetry.addData("The position is" ,glyphPosition);
         telemetry.update();
         sleep(1000);
-        //clawClose();
         liftUp(ARM_UP_POWER,.6);
         stopRobot();
         handDown();
@@ -50,23 +49,45 @@ public class Team10515AutoTurn extends Team10515Base {
 
         if(platformColor.equals("RED")) {
             moveBlueJewel(jewelColor);
+            sleep(1000);
+
+            goBack(FORWARD_SPEED,1.0);
+            stopRobot();
+            sleep(1000);
+
+            //turnLeft(TURN_SPEED,1.0);
+            repositionBot(-85.0);
+            stopRobot();
+            sleep(1000);
+
+            goStraight(FORWARD_SPEED,.3);
+            stopRobot();
+            sleep(1000);
+
+
         }else{
             moveRedJewel(jewelColor);
+                sleep(1000);
+
+                goStraight(FORWARD_SPEED,1.0);
+                stopRobot();
+                sleep(1000);
+
+                //turnLeft(TURN_SPEED,1.0);
+                repositionBot(-85.0);
+                stopRobot();
+                sleep(1000);
+
+                goStraight(FORWARD_SPEED,.3);
+                stopRobot();
+                sleep(1000);
         }
 
-        //goStraight(FORWARD_SPEED,.3);
-        stopRobot();
 
-        //repositionBot();
 
-        //goStraight(FORWARD_SPEED, .5);
-        //glyphPlacement(glyphPosition);
-        //goBack(BACKWARD_SPEED,2.0);
-       // turnRight(TURN_SPEED,0.15);
-      //  goStraight(FORWARD_SPEED,.5);
-        //stopRobot();
 
-        liftUp(ARM_DOWN_POWER,.6);
+        glyphPlacement(glyphPosition);
+
 
     }
 

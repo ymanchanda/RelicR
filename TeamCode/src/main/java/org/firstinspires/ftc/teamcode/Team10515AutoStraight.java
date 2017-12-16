@@ -61,20 +61,44 @@ public class Team10515AutoStraight extends Team10515Base {
         String jewelColor = colorSense();
         sleep(500);
 
-        if(platformColor.equals("RED")) {
+        if(platformColor.equals("RED"))
+        {
             moveBlueJewel(jewelColor);
-        }else{
+            sleep(1000);
+
+            goBack(FORWARD_SPEED,1.0);
+            stopRobot();
+            sleep(1000);
+
+            //turnRight(TURN_SPEED,1.5);
+            repositionBot(-175.0);
+            stopRobot();
+            sleep(1000);
+
+            goStraight(FORWARD_SPEED,.3);
+            stopRobot();
+            sleep(1000);
+        }
+        else
+        {
             moveRedJewel(jewelColor);
+            sleep(1000);
+
+            goStraight(FORWARD_SPEED,1.0);
+            stopRobot();
+            sleep(1000);
+
+
+            repositionBot(5.0);
+            stopRobot();
+            sleep(1000);
+
+            goStraight(FORWARD_SPEED,.3);
+            stopRobot();
+            sleep(1000);
         }
 
-        sleep(1000);
-        goStraight(FORWARD_SPEED,1.3);
-        stopRobot();
-        sleep(1000);
 
-        repositionBot();
-        stopRobot();
-        sleep(1000);
 
        glyphPlacement(glyphPosition);
 
