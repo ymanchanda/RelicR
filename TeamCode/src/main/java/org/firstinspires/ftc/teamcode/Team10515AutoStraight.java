@@ -9,7 +9,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 /**
  * This program will be used for autonomous Straight mode
  * It uses 2 color sensors.
- *      Rev Sensor is used to detect the platform color
+ *      Rev Color Sensor is used to detect the platform color
  *      Color sensor is used to detect the jewel color
  * Based on the platform color the bot will move the appropriate jewel
  *      If RED  then  move  the blue jewel
@@ -25,7 +25,8 @@ public class Team10515AutoStraight extends Team10515Base {
     static final double     INIT_FORWARD_SPEED = 0.1;
     static final double     FORWARD_SPEED = 0.6;
     static final double     BACKWARD_SPEED = 0.6;
-    static final double     TURN_SPEED    = 0.1;
+    static final double     TURN_SPEED    = 0.6;
+    static final double     HWHEEL_SPEED = 0.5;
 
     static final double ARM_UP_POWER = 0.3;
     static final double ARM_DOWN_POWER  = -0.3;
@@ -53,13 +54,12 @@ public class Team10515AutoStraight extends Team10515Base {
         telemetry.addData("The position is" ,glyphPosition);
         telemetry.update();
         sleep(1000);
-        //clawClose();
         liftUp(ARM_UP_POWER,1.5);
         stopRobot();
         handDown();
         sleep(100);
         String jewelColor = colorSense();
-        sleep(2000);
+        sleep(500);
 
         if(platformColor.equals("RED")) {
             moveBlueJewel(jewelColor);
@@ -67,56 +67,53 @@ public class Team10515AutoStraight extends Team10515Base {
             moveRedJewel(jewelColor);
         }
 
-        //goStraight(FORWARD_SPEED,.3);
+        sleep(1000);
+        goStraight(FORWARD_SPEED,1.3);
         stopRobot();
-        goStraight(FORWARD_SPEED,1.0);
+        sleep(1000);
 
         repositionBot();
+        stopRobot();
+        sleep(1000);
 
-        //goStraight(FORWARD_SPEED, .5);
-        //glyphPlacement(glyphPosition);
-        //goBack(BACKWARD_SPEED,2.0);
-       // turnRight(TURN_SPEED,0.15);
-      //  goStraight(FORWARD_SPEED,.5);
-        //stopRobot();
-
-        liftUp(ARM_DOWN_POWER,1.0);
+       glyphPlacement(glyphPosition);
 
     }
 
 
     private void glyphPlacement(String glyphPosition)
     {
-        if (glyphPosition.equals ("LEFT"))
+        if (glyphPosition.equals ("LEFT") || glyphPosition.equals("UNKNOWN"))
         {
-            hRight(INIT_FORWARD_SPEED,.2);
+            hRight(HWHEEL_SPEED,.6);
         }
         else if (glyphPosition.equals("RIGHT"))
         {
-            hRight(INIT_FORWARD_SPEED,.6);
+            hRight(HWHEEL_SPEED,1.5);
         }
         else if (glyphPosition.equals("CENTER"))
         {
-            hRight(INIT_FORWARD_SPEED,.4);
+            hRight(HWHEEL_SPEED,1.0);
 
         }
-        goStraight(FORWARD_SPEED,.1);
+        goStraight(FORWARD_SPEED,.3 );
+        stopRobot();
         robot.claw.setPosition(0);
     }
 
     private void moveBlueJewel(String jewelColor) {
 
         if (jewelColor.equals("RED")) {
-            turnRight(FORWARD_SPEED, 0.2);
+            turnRight(TURN_SPEED, 0.2);
             // goStraight(FORWARD_SPEED,0.5);
             stopRobot();
             handUp();
-            turnLeft(FORWARD_SPEED, 0.2);
+            turnLeft(TURN_SPEED, 0.2);
         } else if (jewelColor.equals("BLUE")) {
-            turnLeft(BACKWARD_SPEED, 0.2);
+            turnLeft(TURN_SPEED, 0.2);
             stopRobot();
             handUp();
-            turnRight(BACKWARD_SPEED, 0.2);
+            turnRight(TURN_SPEED, 0.2);
 
         } else {
             telemetry.addData("Nothing can be done", jewelColor);

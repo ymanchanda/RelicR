@@ -111,7 +111,7 @@ public abstract class Team10515Base extends LinearOpMode {
     }
 
     public void hLeft(double speed, double time) {
-        robot.hWheel.setPower(speed);
+        robot.hWheel.setPower(-speed);
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() <= time)) {
             telemetry.addData("Path", "Leg 2: %2.5f S Elapsed", runtime.seconds());
@@ -121,7 +121,7 @@ public abstract class Team10515Base extends LinearOpMode {
 
     public void hRight(double speed, double time)
     {
-        robot.hWheel.setPower(-speed);
+        robot.hWheel.setPower(speed);
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < time)) {
             telemetry.addData("Path", "Leg 2: %2.5f S Elapsed", runtime.seconds());
@@ -138,45 +138,6 @@ public abstract class Team10515Base extends LinearOpMode {
             telemetry.update();
         }
     }
-   /* public void calibrateGyro() {
-        // Start calibrating the gyro. This takes a few seconds and is worth performing
-        // during the initialization phase at the start of each opMode.
-        telemetry.log().clear();
-        telemetry.addData("Gyro Calibrating. Do Not Move %s","!");
-        telemetry.update();
-
-
-
-        if (robot.gyroSensor instanceof ModernRoboticsI2cGyro){
-            telemetry.addData("modern robotics gyro","true");
-            telemetry.update();
-            sleep(3000);
-        }else{
-            telemetry.addData(" modern robotics gyro","false");
-            telemetry.update();
-            sleep(3000);
-        }
-        robot.gyroSensor.calibrate();
-
-        // Wait until the gyro calibration is complete
-        runtime.reset();
-        while (!isStopRequested() && robot.gyroSensor.isCalibrating()) {
-            telemetry.addData("calibrating", "%s", Math.round(runtime.seconds()) % 2 == 0 ? "|.." : "..|");
-            telemetry.update();
-            sleep(50);
-        }
-        robot.gyroSensor.resetZAxisIntegrator();
-
-        int rawX = robot.gyroSensor.rawX();
-        int rawY = robot.gyroSensor.rawY();
-        int rawZ = robot.gyroSensor.rawZ();
-        int heading = robot.gyroSensor.getHeading();
-        //int integratedZ = robot.gyroSensor.getIntegratedZValue();
-        telemetry.clear();
-        telemetry.addData("Values are","%s, %s, %s",rawX,rawY,heading);
-        telemetry.update();
-
-    }*/
 
     public String vuforiaCapture() {
         int cameraMonitorViewId = robot.hwMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", robot.hwMap.appContext.getPackageName());
@@ -303,6 +264,10 @@ public abstract class Team10515Base extends LinearOpMode {
 
         Orientation angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
+        telemetry.addData("heading", angles.firstAngle);
+        telemetry.addData("firstAngle", angles.firstAngle);
+        telemetry.update();
+
         while (angles.firstAngle > 3.0 || angles.firstAngle < -3.0) {
             if (angles.firstAngle > 3.0) {
 
@@ -314,6 +279,10 @@ public abstract class Team10515Base extends LinearOpMode {
 
             }
             angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+            telemetry.addData("heading", angles.firstAngle);
+            telemetry.addData("firstAngle", angles.firstAngle);
+            telemetry.update();
         }
     }
 }
