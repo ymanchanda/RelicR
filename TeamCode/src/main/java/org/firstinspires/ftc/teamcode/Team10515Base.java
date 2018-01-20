@@ -270,19 +270,24 @@ public abstract class Team10515Base extends LinearOpMode {
 
         while (angles.firstAngle > angleDegrees || angles.firstAngle < -angleDegrees) {
             if (angles.firstAngle > angleDegrees) {
-
-                turnRight(0.3, 0.2);
-
+                turnRight(0.5, 0.1);
 
             } else if (angles.firstAngle < -angleDegrees) {
-                turnLeft(0.3, 0.2);
-
+                turnLeft(0.5, 0.1);
             }
+
+            stopRobot();
+            sleep(200);
             angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+            if(angles.firstAngle > angleDegrees -10 && angles.firstAngle < angleDegrees +10){
+                break;
+            }
 
             telemetry.addData("heading", angles.firstAngle);
             telemetry.addData("firstAngle", angles.firstAngle);
             telemetry.update();
+          //  sleep(1000);
         }
     }
 }

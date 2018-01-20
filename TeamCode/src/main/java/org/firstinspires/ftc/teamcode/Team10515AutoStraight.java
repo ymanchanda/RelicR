@@ -28,8 +28,8 @@ public class Team10515AutoStraight extends Team10515Base {
     static final double     TURN_SPEED    = 0.6;
     static final double     HWHEEL_SPEED = 0.5;
 
-    static final double ARM_UP_POWER = 0.3;
-    static final double ARM_DOWN_POWER  = -0.3;
+    static final double ARM_UP_POWER = 0.5;
+    static final double ARM_DOWN_POWER  = -0.5;
 
     /**
      * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
@@ -54,7 +54,7 @@ public class Team10515AutoStraight extends Team10515Base {
         telemetry.addData("The position is" ,glyphPosition);
         telemetry.update();
         sleep(1000);
-        liftUp(ARM_UP_POWER,1.5);
+        liftUp(ARM_UP_POWER,2.0);
         stopRobot();
         handDown();
         sleep(100);
@@ -66,18 +66,18 @@ public class Team10515AutoStraight extends Team10515Base {
             moveBlueJewel(jewelColor);
             sleep(1000);
 
-            goBack(FORWARD_SPEED,1.0);
+            goBack(BACKWARD_SPEED,0.9);
             stopRobot();
             sleep(1000);
 
             //turnRight(TURN_SPEED,1.5);
-            repositionBot(-175.0);
+            repositionBot(-180.0);
             stopRobot();
             sleep(1000);
 
-            goStraight(FORWARD_SPEED,.3);
+         /*   goStraight(FORWARD_SPEED,.3);
             stopRobot();
-            sleep(1000);
+            sleep(1000);*/
         }
         else
         {
@@ -93,31 +93,37 @@ public class Team10515AutoStraight extends Team10515Base {
             stopRobot();
             sleep(1000);
 
-            goStraight(FORWARD_SPEED,.3);
+            /*goStraight(FORWARD_SPEED,.3);
             stopRobot();
-            sleep(1000);
+            sleep(1000);*/
         }
 
 
 
-       glyphPlacement(glyphPosition);
+       glyphPlacement(glyphPosition,platformColor);
 
     }
 
 
-    private void glyphPlacement(String glyphPosition)
+    private void glyphPlacement(String glyphPosition,String platformColor)
     {
-        if (glyphPosition.equals ("LEFT") || glyphPosition.equals("UNKNOWN"))
-        {
-            hRight(HWHEEL_SPEED,.6);
-        }
-        else if (glyphPosition.equals("RIGHT"))
-        {
-            hRight(HWHEEL_SPEED,1.5);
-        }
-        else if (glyphPosition.equals("CENTER"))
-        {
-            hRight(HWHEEL_SPEED,1.0);
+        if (platformColor.equals("BLUE")) {
+            if (glyphPosition.equals("LEFT") || glyphPosition.equals("UNKNOWN")) {
+                hRight(HWHEEL_SPEED, .6);
+            } else if (glyphPosition.equals("RIGHT")) {
+                hRight(HWHEEL_SPEED, 1.5);
+            } else if (glyphPosition.equals("CENTER")) {
+                hRight(HWHEEL_SPEED, 1.0);
+            }
+        }else if (platformColor.equals("RED")){
+            if (glyphPosition.equals("LEFT") || glyphPosition.equals("UNKNOWN")) {
+                hLeft(HWHEEL_SPEED, .6);
+            } else if (glyphPosition.equals("RIGHT")) {
+                hLeft(HWHEEL_SPEED, 1.5);
+            } else if (glyphPosition.equals("CENTER")) {
+                hLeft(HWHEEL_SPEED, 1.0);
+            }
+
 
         }
         goStraight(FORWARD_SPEED,.3 );
@@ -128,16 +134,19 @@ public class Team10515AutoStraight extends Team10515Base {
     private void moveBlueJewel(String jewelColor) {
 
         if (jewelColor.equals("RED")) {
-            turnRight(TURN_SPEED, 0.2);
-            // goStraight(FORWARD_SPEED,0.5);
+          //  turnRight(TURN_SPEED, 0.2);
+            goStraight(FORWARD_SPEED,0.4);
             stopRobot();
             handUp();
-            turnLeft(TURN_SPEED, 0.2);
+            goBack(BACKWARD_SPEED,0.5);
+          //  turnLeft(TURN_SPEED, 0.2);
         } else if (jewelColor.equals("BLUE")) {
-            turnLeft(TURN_SPEED, 0.2);
+         //   turnLeft(TURN_SPEED, 0.2);
+            goBack(BACKWARD_SPEED,0.4);
             stopRobot();
             handUp();
-            turnRight(TURN_SPEED, 0.2);
+            goStraight(FORWARD_SPEED,0.5);
+           // turnRight(TURN_SPEED, 0.2);
 
         } else {
             telemetry.addData("Nothing can be done", jewelColor);
@@ -151,16 +160,19 @@ public class Team10515AutoStraight extends Team10515Base {
     private void moveRedJewel(String jewelColor) {
 
         if (jewelColor.equals("BLUE")) {
-            turnRight(FORWARD_SPEED, 0.2);
-            // goStraight(FORWARD_SPEED,0.5);
+           // turnRight(FORWARD_SPEED, 0.2);
+            goStraight(FORWARD_SPEED,0.4);
             stopRobot();
             handUp();
-            turnLeft(FORWARD_SPEED, 0.2);
+            goBack(BACKWARD_SPEED,0.4);
+            //turnLeft(FORWARD_SPEED, 0.2);
         } else if (jewelColor.equals("RED")) {
-            turnLeft(BACKWARD_SPEED, 0.2);
+           // turnLeft(BACKWARD_SPEED, 0.2);
+            goBack(BACKWARD_SPEED,0.4);
             stopRobot();
             handUp();
-            turnRight(BACKWARD_SPEED, 0.2);
+            goStraight(FORWARD_SPEED,0.4);
+            //turnRight(BACKWARD_SPEED, 0.2);
 
         } else {
             telemetry.addData("Nothing can be done", jewelColor);
