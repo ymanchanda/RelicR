@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -39,6 +40,7 @@ public class Team10515HW
     public ColorSensor colorSensor     = null;
     public ColorSensor colorSensorRev = null;
     public BNO055IMU imu = null;
+    //public ModernRoboticsI2cRangeSensor rangeSensor = null;
 
     static final String  LEFT_MOTOR = "LMotor";
     static final String  RIGHT_MOTOR = "RMotor";
@@ -53,11 +55,12 @@ public class Team10515HW
     static final String  COLOR_SENSOR = "Color";
     static final String  COLOR_SENSORREV = "RevColor";
     static final String  IMU_SENSOR = "imu";
+    //static final String  RANGE_SENSOR = "sensor_range";
 
-    public static final double LIFT_UP_POWER    =  1.0 ;
-    public static final double LIFT_DOWN_POWER  = -1.0;
+    public static final double LIFT_UP_POWER    =  .5 ;
+    public static final double LIFT_DOWN_POWER  = -0.6;
     public static final double SLIDE_OUT_POWER    =  .3 ;
-    public static final double SLIDE_IN_POWER  = -.1;
+    public static final double SLIDE_IN_POWER  = -.3;
 
 
     /* local OpMode members. */
@@ -88,6 +91,8 @@ public class Team10515HW
 
         colorSensor = hwMap.colorSensor.get(COLOR_SENSOR);
         colorSensorRev = hwMap.get(ColorSensor.class, COLOR_SENSORREV);
+        // rangeSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class, "sensor_range");
+
 
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
         rightMotor.setDirection((DcMotor.Direction.FORWARD));
@@ -96,8 +101,11 @@ public class Team10515HW
         relicSlideMotor.setDirection(DcMotor.Direction.FORWARD);
 
         colorSensor.enableLed(false);
+        colorSensorRev.enableLed(false);
+       // rangeSensor.enableLed(false);
 
-        claw.setDirection(Servo.Direction.REVERSE);
+
+         claw.setDirection(Servo.Direction.REVERSE);
         hand.setDirection(Servo.Direction.REVERSE);
         relicHold.setDirection(Servo.Direction.REVERSE);
         relicArm.setDirection(Servo.Direction.REVERSE);
@@ -109,10 +117,10 @@ public class Team10515HW
         liftMotor.setPower(0);
         relicSlideMotor.setPower(0);
 
-        claw.setPosition(1);
-        hand.setPosition(1);
-        relicHold.setPosition(0);
-        relicArm.setPosition(0);
+     //   claw.setPosition(1);
+       hand.setPosition(1);
+        //relicHold.setPosition(0);
+        //relicArm.setPosition (0);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.

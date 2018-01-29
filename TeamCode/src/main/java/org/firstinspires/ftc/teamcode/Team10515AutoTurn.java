@@ -56,7 +56,7 @@ public class Team10515AutoTurn extends Team10515Base {
             sleep(1000);
 
             //turnLeft(TURN_SPEED,1.0);
-            repositionBot(-85.0);
+            repositionBot(90.0);
             stopRobot();
             sleep(1000);
 
@@ -74,7 +74,7 @@ public class Team10515AutoTurn extends Team10515Base {
                 sleep(1000);
 
                 //turnLeft(TURN_SPEED,1.0);
-                repositionBot(-85.0);
+                repositionBot(90.0);
                 stopRobot();
                 sleep(1000);
 
@@ -108,6 +108,8 @@ public class Team10515AutoTurn extends Team10515Base {
 
         }
         goStraight(FORWARD_SPEED,.1);
+        stopRobot();
+        goBack(BACKWARD_SPEED,0.2);
         robot.claw.setPosition(0);
     }
 

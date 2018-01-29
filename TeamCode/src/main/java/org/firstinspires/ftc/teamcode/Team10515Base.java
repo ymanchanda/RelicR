@@ -166,10 +166,10 @@ public abstract class Team10515Base extends LinearOpMode {
         relicTrackables.activate();
         int i = 0;
         RelicRecoveryVuMark vuMark = null;
-        while (i < 3) {
+        while (i < 2) {
             i++;
             telemetry.addData("i", "%s", i);
-            sleep(2000);
+            sleep(500);
             vuMark = RelicRecoveryVuMark.from(relicTemplate);
             if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
 
@@ -277,7 +277,7 @@ public abstract class Team10515Base extends LinearOpMode {
             }
 
             stopRobot();
-            sleep(200);
+            sleep(100);
             angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
             if(angles.firstAngle > angleDegrees -10 && angles.firstAngle < angleDegrees +10){

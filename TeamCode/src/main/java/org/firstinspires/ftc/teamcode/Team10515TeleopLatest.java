@@ -108,8 +108,8 @@ public class Team10515TeleopLatest extends OpMode{
     }
         else
         {
-            robot.rightMotor.setPower(right);
-            robot.leftMotor.setPower(left);
+            robot.rightMotor.setPower(left);
+            robot.leftMotor.setPower(right);
         }
             if (gamepad1.right_bumper)
             {
@@ -153,11 +153,11 @@ public class Team10515TeleopLatest extends OpMode{
         }
         if (gamepad2.a)
         {
-            relicarmOffset = relicarmOffset + 0.005;
+            relicarmOffset = relicarmOffset + 0.01;
             if (relicarmOffset > 1) relicarmOffset = 1;
             robot.relicArm.setPosition(1 - relicarmOffset);
         } else if (gamepad2.y) {
-            relicarmOffset = relicarmOffset - 0.005;
+            relicarmOffset = relicarmOffset - 0.01;
             if (relicarmOffset < 0) relicarmOffset = 0;
             robot.relicArm.setPosition(1 - relicarmOffset);
 

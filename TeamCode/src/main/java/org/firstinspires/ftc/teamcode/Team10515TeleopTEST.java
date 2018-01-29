@@ -2,10 +2,19 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+/*
+       This is the tele-op program for the driver control period
+       Gamepad 1 controls the robot for the most part till we get to the end game when the gamepad 2 has the power and will control the relic
+       Gamepad 1: Button A and Y move the glyph lift up and down, B and X  open the claw of the glyph attachment, left joystick controls the veritcal
+         movement, while the right joystick controls the turning of the robot, and d-pad controls the H-Wheel.
+       Gamepad 2: Button B and X control the X-rails , the A and Y control the up and down movement of the relic claw, and the bumpers control the
+       opening of the claw
 
+ */
 
-@TeleOp(name="XtremeV TeleopOld", group="Team10515")
-public class Team10515Teleop extends OpMode{
+@TeleOp(name="XtremeV Teleop TEST", group="Team10515")
+public class Team10515TeleopTEST extends OpMode{
 
     /* Declare OpMode members. */
     Team10515HW robot       = new Team10515HW(); // use the class created to define a Pushbot's hardware
@@ -60,6 +69,7 @@ public class Team10515Teleop extends OpMode{
         double drive;
         double turn;
         double max;
+        double lift;
         double hWheel;
         //double Arm;
 
@@ -86,16 +96,34 @@ public class Team10515Teleop extends OpMode{
         }
         if (FWD)
         {
-            drive = -gamepad2.left_stick_y;
+            drive = -gamepad2.left_stick_y;     // when driver presses button the speed changes
             turn  =  gamepad2.right_stick_x;
+            left  = (drive + turn);
+            right = (drive - turn);
 
-        }
+            robot.rightMotor.setPower(left/2.5);
+            robot.leftMotor.setPower(right/2.5);
+
+
+    }
         else
         {
-            robot.rightMotor.setPower(right);
-            robot.leftMotor.setPower(left);
+            robot.rightMotor.setPower(left);
+            robot.leftMotor.setPower(right);
         }
-
+            if (gamepad1.right_bumper)
+            {
+                FWD= true;
+                robot.leftMotor.setDirection(DcMotor.Direction.FORWARD);
+                robot.rightMotor.setDirection(DcMotor.Direction.REVERSE);
+               // robot.leftMotor.se
+            }
+            else if (gamepad1.left_bumper)
+            {
+                FWD = false;
+                robot.leftMotor.setDirection(DcMotor.Direction.REVERSE);
+                robot.rightMotor.setDirection(DcMotor.Direction.FORWARD);
+            }
 
         if (gamepad1.dpad_left)
             robot.hWheel.setPower(-0.8);
@@ -116,20 +144,27 @@ public class Team10515Teleop extends OpMode{
         }
 
         // Use gamepad buttons to move the arm up (Y) and down (A)
-        if (gamepad1.a) {
+        /*if (gamepad1.a) {
             robot.liftMotor.setPower(robot.LIFT_DOWN_POWER);
         }else if (gamepad1.y) {
             robot.liftMotor.setPower(robot.LIFT_UP_POWER);
         }else {
              robot.liftMotor.setPower(0.0);
         }
+        */
+        if (FWD == false)
+        {
+            lift = -gamepad2.left_stick_y;
+            lift *= .75;
+            robot.liftMotor.setPower(lift);
+        }
         if (gamepad2.a)
         {
-            relicarmOffset = relicarmOffset + 0.005;
+            relicarmOffset = relicarmOffset + 0.01;
             if (relicarmOffset > 1) relicarmOffset = 1;
             robot.relicArm.setPosition(1 - relicarmOffset);
         } else if (gamepad2.y) {
-            relicarmOffset = relicarmOffset - 0.005;
+            relicarmOffset = relicarmOffset - 0.01;
             if (relicarmOffset < 0) relicarmOffset = 0;
             robot.relicArm.setPosition(1 - relicarmOffset);
 
