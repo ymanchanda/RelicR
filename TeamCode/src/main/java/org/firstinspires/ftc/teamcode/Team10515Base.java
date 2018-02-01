@@ -10,6 +10,7 @@ import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuMarkInstanceId;
@@ -128,6 +129,22 @@ public abstract class Team10515Base extends LinearOpMode {
             telemetry.update();
         }
     }
+
+    public void hRight(double speed, int moveCount,double originalDistanceToWall)
+    {
+
+        for(int counter = 0; counter < moveCount;){
+            while (opModeIsActive() &&  getDistance() < originalDistanceToWall-3.0 ) {
+                robot.hWheel.setPower(speed);
+            }
+
+            stopRobot();
+            counter++;
+            sleep(200);
+        }
+        hLeft(0.3,0.3);
+    }
+
 
     public void liftUp(double speed, double time)
     {
@@ -289,5 +306,17 @@ public abstract class Team10515Base extends LinearOpMode {
             telemetry.update();
           //  sleep(1000);
         }
+    }
+
+    public double getDistance(){
+
+        double distance = robot.rangeSensor.getDistance(DistanceUnit.CM);
+        telemetry.addData("raw ultrasonic", robot.rangeSensor.rawUltrasonic());
+        telemetry.addData("raw optical", robot.rangeSensor.rawOptical());
+        // telemetry.addData("cm optical", "%.2f cm", rangeSensor.cmOptical());
+        telemetry.addData("cm", "%.2f cm", distance);
+        telemetry.update();
+
+        return distance;
     }
 }

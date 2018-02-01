@@ -40,7 +40,7 @@ public class Team10515HW
     public ColorSensor colorSensor     = null;
     public ColorSensor colorSensorRev = null;
     public BNO055IMU imu = null;
-    //public ModernRoboticsI2cRangeSensor rangeSensor = null;
+    public ModernRoboticsI2cRangeSensor rangeSensor = null;
 
     static final String  LEFT_MOTOR = "LMotor";
     static final String  RIGHT_MOTOR = "RMotor";
