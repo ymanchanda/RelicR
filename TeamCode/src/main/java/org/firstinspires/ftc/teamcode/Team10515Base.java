@@ -133,6 +133,9 @@ public abstract class Team10515Base extends LinearOpMode {
     public void hRight(double speed, int moveCount,double originalDistanceToWall)
     {
 
+        telemetry.addData("inside left","hright");
+        telemetry.update();
+        sleep(2000);
         for(int counter = 0; counter < moveCount;){
             while (opModeIsActive() &&  getDistance() < originalDistanceToWall-3.0 ) {
                 robot.hWheel.setPower(speed);
@@ -147,6 +150,17 @@ public abstract class Team10515Base extends LinearOpMode {
 
 
     public void liftUp(double speed, double time)
+    {
+        robot.liftMotor.setPower(speed);
+        runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() <= time)) {
+            telemetry.addData("Path", "Leg 2: %2.5f S Elapsed", runtime.seconds());
+            telemetry.update();
+        }
+    }
+
+
+    public void liftDown(double speed, double time)
     {
         robot.liftMotor.setPower(speed);
         runtime.reset();
@@ -316,7 +330,7 @@ public abstract class Team10515Base extends LinearOpMode {
         // telemetry.addData("cm optical", "%.2f cm", rangeSensor.cmOptical());
         telemetry.addData("cm", "%.2f cm", distance);
         telemetry.update();
-
+        sleep(500);
         return distance;
     }
 }
