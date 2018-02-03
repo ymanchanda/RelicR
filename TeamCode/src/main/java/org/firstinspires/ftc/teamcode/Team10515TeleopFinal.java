@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
 /*
        This is the tele-op program for the driver control period
        Gamepad 1 controls the robot for the most part till we get to the end game when the gamepad 2 has the power and will control the relic
@@ -13,8 +15,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
  */
 
-@TeleOp(name="XtremeV Teleop TEST", group="Team10515")
-public class Team10515TeleopTEST extends OpMode{
+@TeleOp(name="XtremeV Teleop FINAL", group="Team10515")
+public class Team10515TeleopFinal extends OpMode{
 
     /* Declare OpMode members. */
     Team10515HW robot       = new Team10515HW(); // use the class created to define a Pushbot's hardware
@@ -27,6 +29,8 @@ public class Team10515TeleopTEST extends OpMode{
     final double    RELICARM_SPEED  = 0.025 ;
     boolean FWD = false;// sets rate to move servo
 
+
+    ElapsedTime runtime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -57,6 +61,7 @@ public class Team10515TeleopTEST extends OpMode{
     public void start() {
         telemetry.addData("Say", "Ready to Play");    //
         updateTelemetry(telemetry);
+        runtime.reset();
     }
 
     /*
@@ -125,22 +130,28 @@ public class Team10515TeleopTEST extends OpMode{
                 robot.rightMotor.setDirection(DcMotor.Direction.FORWARD);
             }
 
-        if (gamepad1.dpad_left)
+        if (gamepad1.dpad_left || gamepad2.dpad_right)
             robot.hWheel.setPower(-0.8);
-        else if (gamepad1.dpad_right)
+        else if (gamepad1.dpad_right || gamepad2.dpad_left)
             robot.hWheel.setPower(0.8);
         else
             robot.hWheel.setPower(0.0);
 
         // Use gamepad X & b buttons to open and close the claw
        if (gamepad1.b){
-            clawOffset = clawOffset + 0.010;
-            if (clawOffset > 1) clawOffset = 1;
-            robot.claw.setPosition(1 - clawOffset);
+           if (runtime.time() > 10.0) {
+               clawOffset = clawOffset + 0.020;
+               clawOffset = Range.clip(clawOffset, 0, 0.3);
+               robot.claw.setPosition(1 - clawOffset);
+               runtime.reset();
+           }
         } else if (gamepad1.x) {
-            clawOffset = clawOffset - 0.010;
-            if (clawOffset < 0) clawOffset = 0;
-            robot.claw.setPosition(1 - clawOffset);
+           if (runtime.time() > 10.0) {
+               clawOffset = clawOffset - 0.020;
+               clawOffset = Range.clip(clawOffset, 0, 1);
+               robot.claw.setPosition(1 - clawOffset);
+               runtime.reset();
+           }
         }
 
         // Use gamepad buttons to move the arm up (Y) and down (A)
@@ -154,20 +165,33 @@ public class Team10515TeleopTEST extends OpMode{
         */
         if (FWD == false)
         {
-            lift = -gamepad2.left_stick_y;
-            lift *= .75;
+            if (gamepad2.left_stick_y < 0)
+                lift = -gamepad2.left_stick_y * 0.6;
+            else
+                lift = -gamepad2.left_stick_y * 0.3;
             robot.liftMotor.setPower(lift);
         }
+
         if (gamepad2.a)
         {
-            relicarmOffset = relicarmOffset + 0.01;
-            if (relicarmOffset > 1) relicarmOffset = 1;
-            robot.relicArm.setPosition(1 - relicarmOffset);
-        } else if (gamepad2.y) {
-            relicarmOffset = relicarmOffset - 0.01;
-            if (relicarmOffset < 0) relicarmOffset = 0;
-            robot.relicArm.setPosition(1 - relicarmOffset);
 
+            if (runtime.time() > 10.0) {
+                //if (relicarmOffset > 1) relicarmOffset = 1;
+                relicarmOffset = relicarmOffset + 0.01;
+                relicarmOffset = Range.clip(relicarmOffset, 0, 1);
+                robot.relicArm.setPosition(1 - relicarmOffset);
+                runtime.reset();
+            }
+
+        } else if (gamepad2.y) {
+
+            if (runtime.time() > 10.0) {
+                relicarmOffset = relicarmOffset - 0.01;
+                relicarmOffset = Range.clip(relicarmOffset, 0, 1);
+                //if (relicarmOffset < 0) relicarmOffset = 0;
+                robot.relicArm.setPosition(1 - relicarmOffset);
+                runtime.reset();
+            }
         }
         if (gamepad2.b)
         {
@@ -183,13 +207,20 @@ public class Team10515TeleopTEST extends OpMode{
         }
         if (gamepad2.left_bumper)
         {
-            relicholdOffset = relicholdOffset + 0.010;
-            if (relicholdOffset > 1) relicholdOffset = 1;
-            robot.relicHold.setPosition(1 - relicholdOffset);
+            if (runtime.time() > 10.0) {
+                relicholdOffset = relicholdOffset + 0.010;
+                relicholdOffset = Range.clip(relicholdOffset, 0, 1);
+                robot.relicHold.setPosition(1 - relicholdOffset);
+                runtime.reset();
+            }
         } else if (gamepad2.right_bumper) {
-            relicholdOffset = relicholdOffset - 0.010;
-            if (relicholdOffset < 0) relicholdOffset = 0;
-            robot.relicHold.setPosition(1 - relicholdOffset);
+
+            if (runtime.time() > 10.0) {
+                relicholdOffset = relicholdOffset - 0.010;
+                relicholdOffset = Range.clip(relicholdOffset, 0, 1);
+                robot.relicHold.setPosition(1 - relicholdOffset);
+                runtime.reset();
+            }
         }
 
         // Send telemetry message to signify robot running;

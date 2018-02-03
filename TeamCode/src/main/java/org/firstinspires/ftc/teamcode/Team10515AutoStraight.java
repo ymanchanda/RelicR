@@ -23,8 +23,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 public class Team10515AutoStraight extends Team10515Base {
 
     static final double     INIT_FORWARD_SPEED = 0.1;
-    static final double     FORWARD_SPEED = 0.6;
-    static final double     BACKWARD_SPEED = 0.6;
+    static final double     FORWARD_SPEED = 0.4;
+    static final double     BACKWARD_SPEED = 0.4;
     static final double     TURN_SPEED    = 0.6;
     static final double     HWHEEL_SPEED = 0.5;
 
@@ -84,7 +84,7 @@ public class Team10515AutoStraight extends Team10515Base {
             moveRedJewel(jewelColor);
             sleep(200);
 
-            goStraight(FORWARD_SPEED,1.3);
+            goStraight(FORWARD_SPEED,1.5);
             stopRobot();
             sleep(200);
 

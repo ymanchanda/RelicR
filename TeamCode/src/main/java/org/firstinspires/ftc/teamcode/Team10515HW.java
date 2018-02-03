@@ -55,11 +55,11 @@ public class Team10515HW
     static final String  COLOR_SENSOR = "Color";
     static final String  COLOR_SENSORREV = "RevColor";
     static final String  IMU_SENSOR = "imu";
-    //static final String  RANGE_SENSOR = "sensor_range";
+    static final String  RANGE_SENSOR = "Range";
 
     public static final double LIFT_UP_POWER    =  .5 ;
     public static final double LIFT_DOWN_POWER  = -0.6;
-    public static final double SLIDE_OUT_POWER    =  .3 ;
+    public static final double SLIDE_OUT_POWER    =  .5 ;
     public static final double SLIDE_IN_POWER  = -.3;
 
 
@@ -91,7 +91,7 @@ public class Team10515HW
 
         colorSensor = hwMap.colorSensor.get(COLOR_SENSOR);
         colorSensorRev = hwMap.get(ColorSensor.class, COLOR_SENSORREV);
-        // rangeSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class, "sensor_range");
+        rangeSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class, RANGE_SENSOR);
 
 
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
