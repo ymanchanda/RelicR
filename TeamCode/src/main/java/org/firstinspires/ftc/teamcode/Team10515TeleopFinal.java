@@ -166,7 +166,7 @@ public class Team10515TeleopFinal extends OpMode{
         if (FWD == false)
         {
             if (gamepad2.left_stick_y < 0)
-                lift = -gamepad2.left_stick_y * 0.6;
+                lift = -gamepad2.left_stick_y * 0.8;
             else
                 lift = -gamepad2.left_stick_y * 0.3;
             robot.liftMotor.setPower(lift);

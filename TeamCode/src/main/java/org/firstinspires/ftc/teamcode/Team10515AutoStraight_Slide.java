@@ -41,6 +41,7 @@ public class Team10515AutoStraight_Slide extends Team10515Base {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
+        robot.claw.setPosition(1);
         String platformColor = colorSenseRev();
         sleep(100);
         String glyphPosition = vuforiaCapture();
@@ -59,7 +60,7 @@ public class Team10515AutoStraight_Slide extends Team10515Base {
             moveBlueJewel(jewelColor);
             sleep(200);
 
-            goBack(BACKWARD_SPEED,0.7);
+            goBack(BACKWARD_SPEED,0.6);
             stopRobot();
             sleep(200);
 
@@ -81,7 +82,7 @@ public class Team10515AutoStraight_Slide extends Team10515Base {
             stopRobot();
             sleep(500);
 
-            goStraight(FORWARD_SPEED,1.4);
+            goStraight(FORWARD_SPEED,1.5);
             stopRobot();
             sleep(200);
 
@@ -95,7 +96,7 @@ public class Team10515AutoStraight_Slide extends Team10515Base {
             sleep(1000);*/
         }
 
-        liftUp(ARM_UP_POWER,0.8);
+        //liftUp(ARM_UP_POWER,0.8);
        glyphPlacement(glyphPosition,platformColor);
 
     }
@@ -108,33 +109,33 @@ public class Team10515AutoStraight_Slide extends Team10515Base {
             stopRobot();
             sleep(200);
             if (glyphPosition.equals("LEFT") || glyphPosition.equals("UNKNOWN")) {
-                hRight(HWHEEL_SPEED, 0.9);
+                hRight(HWHEEL_SPEED, 0.8);
                /* telemetry.addData("inside left","inside left");
                 telemetry.update();
                 sleep(2000);
                 hRight(0.3,1,getDistance());*/
             } else if (glyphPosition.equals("RIGHT")) {
-                hRight(HWHEEL_SPEED, 1.9);
+                hRight(HWHEEL_SPEED, 1.8);
             } else if (glyphPosition.equals("CENTER")) {
-                hRight(HWHEEL_SPEED, 1.4);
+                hRight(HWHEEL_SPEED, 1.3);
             }
         }else if (platformColor.equals("RED")){
             hRight(HWHEEL_SPEED,4.0);
             stopRobot();
             sleep(200);
             if (glyphPosition.equals("RIGHT") || glyphPosition.equals("UNKNOWN")) {
-                hLeft(HWHEEL_SPEED, .9);
+                hLeft(HWHEEL_SPEED, .8);
             } else if (glyphPosition.equals("LEFT")) {
-                hLeft(HWHEEL_SPEED, 1.9);
+                hLeft(HWHEEL_SPEED, 1.8);
             } else if (glyphPosition.equals("CENTER")) {
-                hLeft(HWHEEL_SPEED, 1.4);
+                hLeft(HWHEEL_SPEED, 1.3);
             }
 
 
         }
-        liftDown(ARM_DOWN_POWER,0.5);
-        stopRobot();
-        sleep(200);
+       // liftDown(ARM_DOWN_POWER,0.5);
+       // stopRobot();
+       // sleep(200);
         goStraight(FORWARD_SPEED,1.3 );
         stopRobot();
         sleep(200);

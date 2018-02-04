@@ -225,7 +225,7 @@ public abstract class Team10515Base extends LinearOpMode {
         telemetry.addData("heading", angles.firstAngle);
         telemetry.addData("firstAngle", angles.firstAngle);
 
-        robot.claw.setPosition(1);
+        //robot.claw.setPosition(.5);
        // robot.liftMotor.setPower(ARM_UP_POWER);
 
         sleep(2000);

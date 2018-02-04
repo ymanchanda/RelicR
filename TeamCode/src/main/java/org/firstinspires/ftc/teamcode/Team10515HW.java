@@ -117,7 +117,7 @@ public class Team10515HW
         liftMotor.setPower(0);
         relicSlideMotor.setPower(0);
 
-     //   claw.setPosition(1);
+     //claw.setPosition(.5);
        hand.setPosition(1);
         //relicHold.setPosition(0);
         //relicArm.setPosition (0);

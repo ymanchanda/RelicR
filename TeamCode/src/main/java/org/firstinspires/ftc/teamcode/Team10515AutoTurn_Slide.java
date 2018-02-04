@@ -33,7 +33,7 @@ public class Team10515AutoTurn_Slide extends Team10515Base {
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-
+        robot.claw.setPosition(1);
         String platformColor = colorSenseRev();
         sleep(100);
         String glyphPosition = vuforiaCapture();
