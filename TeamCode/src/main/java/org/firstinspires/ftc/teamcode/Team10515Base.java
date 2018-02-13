@@ -324,11 +324,11 @@ public abstract class Team10515Base extends LinearOpMode {
 
     public double getDistance(){
 
-        double distance = robot.rangeSensor.getDistance(DistanceUnit.CM);
+        double distance = robot.rangeSensor.getDistance(DistanceUnit.INCH);
         telemetry.addData("raw ultrasonic", robot.rangeSensor.rawUltrasonic());
         telemetry.addData("raw optical", robot.rangeSensor.rawOptical());
         // telemetry.addData("cm optical", "%.2f cm", rangeSensor.cmOptical());
-        telemetry.addData("cm", "%.2f cm", distance);
+        telemetry.addData("inch", "%.2f inch", distance);
         telemetry.update();
         sleep(500);
         return distance;
