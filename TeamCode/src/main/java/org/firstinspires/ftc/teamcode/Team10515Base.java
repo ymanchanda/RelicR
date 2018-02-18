@@ -130,22 +130,26 @@ public abstract class Team10515Base extends LinearOpMode {
         }
     }
 
-    public void hRight(double speed, int moveCount,double originalDistanceToWall)
-    {
+    public void hRight(double speed,int moveCount,double distanceToWall) {
 
-        telemetry.addData("inside left","hright");
+        telemetry.addData("inside left", "hright");
         telemetry.update();
         sleep(2000);
-        for(int counter = 0; counter < moveCount;){
-            while (opModeIsActive() &&  getDistance() < originalDistanceToWall-3.0 ) {
-                robot.hWheel.setPower(speed);
-            }
 
+        while (opModeIsActive() && getDistance() > distanceToWall ) {
+            hLeft(0.8, 0.3);
             stopRobot();
-            counter++;
-            sleep(200);
+           // sleep(500);
         }
-        hLeft(0.3,0.3);
+
+        while (opModeIsActive() && getDistance() < distanceToWall ) {
+            hRight(0.8, 0.3);
+            stopRobot();
+            // sleep(500);
+        }
+
+        stopRobot();
+        sleep(200);
     }
 
 
@@ -311,7 +315,7 @@ public abstract class Team10515Base extends LinearOpMode {
             sleep(100);
             angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
-            if(angles.firstAngle > angleDegrees -10 && angles.firstAngle < angleDegrees +10){
+            if(angles.firstAngle > angleDegrees -5 && angles.firstAngle < angleDegrees +5){
                 break;
             }
 
