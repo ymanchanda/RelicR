@@ -48,7 +48,7 @@ public class Team10515AutoStraight_Slide_Sensor extends Team10515Base {
         telemetry.addData("The position is" ,glyphPosition);
         telemetry.update();
         sleep(200);
-        liftUp(ARM_UP_POWER,2.0);
+        liftUp(0.3,0.2);
         stopRobot();
         handDown();
         sleep(100);
@@ -65,38 +65,31 @@ public class Team10515AutoStraight_Slide_Sensor extends Team10515Base {
             sleep(200);
 
             //turnRight(TURN_SPEED,1.5);
-            repositionBot(-180.0);
-            stopRobot();
-            sleep(200);
-
-         /*   goStraight(FORWARD_SPEED,.3);
-            stopRobot();
-            sleep(1000);*/
+//            repositionBot(-180.0);
+//            stopRobot();
+//            sleep(200);
         }
         else
         {
             moveRedJewel(jewelColor);
             sleep(200);
 
-            hRight(0.4,2.3);
+            hRight(0.4,2.0);
             stopRobot();
-            sleep(500);
+            sleep(200);
 
             goStraight(FORWARD_SPEED,1.5);
             stopRobot();
             sleep(200);
 
 
-            repositionBot(5.0);
+            repositionBot(1.0);
             stopRobot();
             sleep(200);
 
-          /*  goStraight(FORWARD_SPEED,.3);
-            stopRobot();
-            sleep(1000);*/
         }
 
-        //liftUp(ARM_UP_POWER,0.8);
+       // liftUp(ARM_UP_POWER,0.3);
        glyphPlacement(glyphPosition,platformColor);
 
     }
@@ -105,46 +98,46 @@ public class Team10515AutoStraight_Slide_Sensor extends Team10515Base {
     private void glyphPlacement(String glyphPosition,String platformColor)
     {
         if (platformColor.equals("BLUE")) {
-           // hLeft(HWHEEL_SPEED,4.0);
-           // stopRobot();
-            sleep(200);
+
             if (glyphPosition.equals("LEFT") || glyphPosition.equals("UNKNOWN")) {
                 //hRight(HWHEEL_SPEED, 0.8);
-                hRight(HWHEEL_SPEED,5,21);
-               /* telemetry.addData("inside left","inside left");
-                telemetry.update();
-                sleep(2000);
+                moveByRange(HWHEEL_SPEED,21.0);
+     /*           sleep(2000);
                 hRight(0.3,1,getDistance());*/
             } else if (glyphPosition.equals("RIGHT")) {
                // hRight(HWHEEL_SPEED, 1.8);
-                hRight(HWHEEL_SPEED,5,36);
+                moveByRange(HWHEEL_SPEED,34.0);
             } else if (glyphPosition.equals("CENTER")) {
                // hRight(HWHEEL_SPEED, 1.3);
-                hRight(HWHEEL_SPEED,5,28.5);
+                moveByRange(HWHEEL_SPEED,28.0);
             }
         }else if (platformColor.equals("RED")){
-            hRight(HWHEEL_SPEED,4.0);
-            stopRobot();
-            sleep(200);
             if (glyphPosition.equals("RIGHT") || glyphPosition.equals("UNKNOWN")) {
-                hLeft(HWHEEL_SPEED, .8);
+       //         hLeft(HWHEEL_SPEED, .8);
+                moveByRange(HWHEEL_SPEED,21.0);
             } else if (glyphPosition.equals("LEFT")) {
-                hLeft(HWHEEL_SPEED, 1.8);
+               // hLeft(HWHEEL_SPEED, 1.8);
+                moveByRange(HWHEEL_SPEED,34.0);
             } else if (glyphPosition.equals("CENTER")) {
-                hLeft(HWHEEL_SPEED, 1.3);
+                //hLeft(HWHEEL_SPEED, 1.3);
+                moveByRange(HWHEEL_SPEED,28.0);
             }
 
-
+            repositionBot(-180.0);
+            stopRobot();
+            sleep(200);
         }
-       // liftDown(ARM_DOWN_POWER,0.5);
-       // stopRobot();
-       // sleep(200);
+
+      //  repositionBot(1.0);
+        //liftDown(0.4,0.3);
+        stopRobot();
+        sleep(200);
         goStraight(FORWARD_SPEED,1.5 );
         stopRobot();
         sleep(200);
         robot.claw.setPosition(0);
         stopRobot();
-        goBack(BACKWARD_SPEED,0.4);
+        goBack(BACKWARD_SPEED,0.1);
         stopRobot();
        // robot.claw.setPosition(0);
     }

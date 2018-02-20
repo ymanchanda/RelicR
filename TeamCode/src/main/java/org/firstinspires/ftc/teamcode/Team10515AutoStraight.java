@@ -109,8 +109,8 @@ public class Team10515AutoStraight extends Team10515Base {
     {
         if (platformColor.equals("BLUE")) {
             if (glyphPosition.equals("LEFT") || glyphPosition.equals("UNKNOWN")) {
-                //hRight(HWHEEL_SPEED, .8);
-                hRight(0.2,1,getDistance());
+                hRight(HWHEEL_SPEED, .8);
+                //hRight(0.2,1,getDistance());
             } else if (glyphPosition.equals("RIGHT")) {
                 hRight(HWHEEL_SPEED, 2.5);
             } else if (glyphPosition.equals("CENTER")) {

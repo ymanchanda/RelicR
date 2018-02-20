@@ -42,7 +42,7 @@ public abstract class Team10515Base extends LinearOpMode {
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < period)) {
             telemetry.addData("Path", "Leg 2: %2.5f S Elapsed", runtime.seconds());
-            telemetry.update();
+          //  telemetry.update();
         }
     }
 
@@ -54,7 +54,7 @@ public abstract class Team10515Base extends LinearOpMode {
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < period)) {
             telemetry.addData("Path", "Leg 2: %2.5f S Elapsed", runtime.seconds());
-            telemetry.update();
+         //   telemetry.update();
         }
     }
 
@@ -66,8 +66,8 @@ public abstract class Team10515Base extends LinearOpMode {
 
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < period)) {
-            telemetry.addData("Path", "Leg 2: %2.5f S Elapsed", runtime.seconds());
-            telemetry.update();
+          //  telemetry.addData("Path", "Leg 2: %2.5f S Elapsed", runtime.seconds());
+         //   telemetry.update();
         }
     }
 
@@ -79,8 +79,8 @@ public abstract class Team10515Base extends LinearOpMode {
 
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < period)) {
-            telemetry.addData("Path", "Leg 2: %2.5f S Elapsed", runtime.seconds());
-            telemetry.update();
+          //  telemetry.addData("Path", "Leg 2: %2.5f S Elapsed", runtime.seconds());
+         //   telemetry.update();
         }
 
     }
@@ -88,7 +88,7 @@ public abstract class Team10515Base extends LinearOpMode {
     public void stopRobot() {
         robot.leftMotor.setPower(0.0);
         robot.rightMotor.setPower(0.0);
-        robot.liftMotor.setPower(0.0);
+       // robot.liftMotor.setPower(0.0);
         robot.hWheel.setPower(0.0);
     }
 
@@ -116,7 +116,7 @@ public abstract class Team10515Base extends LinearOpMode {
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() <= time)) {
             telemetry.addData("Path", "Leg 2: %2.5f S Elapsed", runtime.seconds());
-            telemetry.update();
+           // telemetry.update();
         }
     }
 
@@ -126,26 +126,24 @@ public abstract class Team10515Base extends LinearOpMode {
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < time)) {
             telemetry.addData("Path", "Leg 2: %2.5f S Elapsed", runtime.seconds());
-            telemetry.update();
+            //telemetry.update();
         }
     }
 
-    public void hRight(double speed,int moveCount,double distanceToWall) {
-
-        telemetry.addData("inside left", "hright");
-        telemetry.update();
-        sleep(2000);
+    public void moveByRange(double speed,double distanceToWall) {
 
         while (opModeIsActive() && getDistance() > distanceToWall ) {
-            hLeft(0.8, 0.3);
-            stopRobot();
+            //hLeft(0.8, 0.3);
+            //stopRobot();
            // sleep(500);
+            robot.hWheel.setPower(-speed);
         }
 
-        while (opModeIsActive() && getDistance() < distanceToWall ) {
-            hRight(0.8, 0.3);
-            stopRobot();
+        while (opModeIsActive() && getDistance() < distanceToWall - 0.5) {
+            //hRight(0.8, 0.3);
+            //stopRobot();
             // sleep(500);
+            robot.hWheel.setPower(speed);
         }
 
         stopRobot();
@@ -159,7 +157,7 @@ public abstract class Team10515Base extends LinearOpMode {
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() <= time)) {
             telemetry.addData("Path", "Leg 2: %2.5f S Elapsed", runtime.seconds());
-            telemetry.update();
+          //  telemetry.update();
         }
     }
 
@@ -170,7 +168,7 @@ public abstract class Team10515Base extends LinearOpMode {
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() <= time)) {
             telemetry.addData("Path", "Leg 2: %2.5f S Elapsed", runtime.seconds());
-            telemetry.update();
+         //   telemetry.update();
         }
     }
 
@@ -302,6 +300,7 @@ public abstract class Team10515Base extends LinearOpMode {
         telemetry.addData("heading", angles.firstAngle);
         telemetry.addData("firstAngle", angles.firstAngle);
         telemetry.update();
+        sleep(2000);
 
         while (angles.firstAngle > angleDegrees || angles.firstAngle < -angleDegrees) {
             if (angles.firstAngle > angleDegrees) {
@@ -316,13 +315,16 @@ public abstract class Team10515Base extends LinearOpMode {
             angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
             if(angles.firstAngle > angleDegrees -5 && angles.firstAngle < angleDegrees +5){
+                telemetry.addData("firstAngle", angles.firstAngle);
+                telemetry.update();
+              sleep(1000);
                 break;
             }
 
             telemetry.addData("heading", angles.firstAngle);
             telemetry.addData("firstAngle", angles.firstAngle);
             telemetry.update();
-          //  sleep(1000);
+            sleep(1000);
         }
     }
 
@@ -334,7 +336,7 @@ public abstract class Team10515Base extends LinearOpMode {
         // telemetry.addData("cm optical", "%.2f cm", rangeSensor.cmOptical());
         telemetry.addData("inch", "%.2f inch", distance);
         telemetry.update();
-        sleep(500);
+      //  sleep(500);
         return distance;
     }
 }

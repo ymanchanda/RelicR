@@ -45,7 +45,17 @@ public class Team10515AutoTest extends Team10515Base {
         waitForStart();
 
 
-        double currentDistance = getDistance();
+
+        turnLeft(0.5,0.2);
+
+
+        stopRobot();
+
+        repositionBot(1);
+
+        stopRobot();
+
+      /*  double currentDistance = getDistance();
         //telemetry.addData("raw ultrasonic", currentDistance);
         telemetry.addData("inch", "%.2f inch", currentDistance);
         telemetry.update();
@@ -63,7 +73,7 @@ public class Team10515AutoTest extends Team10515Base {
         currentDistance = getDistance();
         telemetry.addData("inch", "%.2f inch", currentDistance);
         telemetry.update();
-        sleep(1000);
+        sleep(1000);*/
 
     }
 
