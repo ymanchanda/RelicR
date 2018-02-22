@@ -65,7 +65,7 @@ public class Team10515AutoStraight_Slide_Sensor extends Team10515Base {
             sleep(200);
 
             //turnRight(TURN_SPEED,1.5);
-//            repositionBot(-180.0);
+           repositionBot(1);
 //            stopRobot();
 //            sleep(200);
         }
@@ -123,9 +123,14 @@ public class Team10515AutoStraight_Slide_Sensor extends Team10515Base {
                 moveByRange(HWHEEL_SPEED,28.0);
             }
 
+
             repositionBot(-180.0);
             stopRobot();
             sleep(200);
+
+            goBack(BACKWARD_SPEED,0.1);
+            stopRobot();
+
         }
 
       //  repositionBot(1.0);

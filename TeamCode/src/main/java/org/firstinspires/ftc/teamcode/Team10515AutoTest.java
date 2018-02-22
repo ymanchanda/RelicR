@@ -46,12 +46,12 @@ public class Team10515AutoTest extends Team10515Base {
 
 
 
-        turnLeft(0.5,0.2);
+       // turnLeft(0.5,0.2);
 
 
-        stopRobot();
+       // stopRobot();
 
-        repositionBot(1);
+        repositionBot(-180);
 
         stopRobot();
 

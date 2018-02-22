@@ -300,7 +300,7 @@ public abstract class Team10515Base extends LinearOpMode {
         telemetry.addData("heading", angles.firstAngle);
         telemetry.addData("firstAngle", angles.firstAngle);
         telemetry.update();
-        sleep(2000);
+     //   sleep(2000);
 
         while (angles.firstAngle > angleDegrees || angles.firstAngle < -angleDegrees) {
             if (angles.firstAngle > angleDegrees) {
@@ -324,7 +324,7 @@ public abstract class Team10515Base extends LinearOpMode {
             telemetry.addData("heading", angles.firstAngle);
             telemetry.addData("firstAngle", angles.firstAngle);
             telemetry.update();
-            sleep(1000);
+           // sleep(1000);
         }
     }
 
