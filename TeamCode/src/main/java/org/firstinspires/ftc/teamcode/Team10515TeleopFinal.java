@@ -5,6 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
+
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 /*
        This is the tele-op program for the driver control period
        Gamepad 1 controls the robot for the most part till we get to the end game when the gamepad 2 has the power and will control the relic
@@ -28,7 +30,7 @@ public class Team10515TeleopFinal extends OpMode{
     final double    RELICHOLD_SPEED  = 0.025 ;                 // sets rate to move servo
     final double    RELICARM_SPEED  = 0.025 ;
     boolean FWD = false;// sets rate to move servo
-
+    int counter = 0;
 
     ElapsedTime runtime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
 
@@ -154,6 +156,23 @@ public class Team10515TeleopFinal extends OpMode{
            }
         }
 
+        if (gamepad1.a){
+
+           int pos = counter % 3;
+          switch (pos) {
+              case 0 :
+                  moveByRange(0.8,21.0);
+                  break;
+              case 1:
+                  moveByRange(0.8,25);
+                  break;
+              case 2:
+                  moveByRange(0.8,31.5);
+                  break;
+         }
+            counter++;
+        }
+
         // Use gamepad buttons to move the arm up (Y) and down (A)
         /*if (gamepad1.a) {
             robot.liftMotor.setPower(robot.LIFT_DOWN_POWER);
@@ -240,5 +259,43 @@ public class Team10515TeleopFinal extends OpMode{
     }
 
 
+    public void moveByRange(double speed,double distanceToWall) {
 
+        while  (getDistance() > distanceToWall ) {
+            //hLeft(0.8, 0.3);
+            //stopRobot();
+            // sleep(500);
+            robot.hWheel.setPower(-speed);
+        }
+
+        while(getDistance() < distanceToWall - 0.5) {
+            //hRight(0.8, 0.3);
+            //stopRobot();
+            // sleep(500);
+            robot.hWheel.setPower(speed);
+        }
+
+        stopRobot();
+
+    }
+
+
+    public double getDistance(){
+
+        double distance = robot.rangeSensor.getDistance(DistanceUnit.INCH);
+        telemetry.addData("raw ultrasonic", robot.rangeSensor.rawUltrasonic());
+        telemetry.addData("raw optical", robot.rangeSensor.rawOptical());
+        // telemetry.addData("cm optical", "%.2f cm", rangeSensor.cmOptical());
+        telemetry.addData("inch", "%.2f inch", distance);
+        telemetry.update();
+        //  sleep(500);
+        return distance;
+    }
+
+    public void stopRobot() {
+        robot.leftMotor.setPower(0.0);
+        robot.rightMotor.setPower(0.0);
+        // robot.liftMotor.setPower(0.0);
+        robot.hWheel.setPower(0.0);
+    }
 }
