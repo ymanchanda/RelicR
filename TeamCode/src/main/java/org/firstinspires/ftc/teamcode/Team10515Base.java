@@ -300,7 +300,7 @@ public abstract class Team10515Base extends LinearOpMode {
         telemetry.addData("heading", angles.firstAngle);
         telemetry.addData("firstAngle", angles.firstAngle);
         telemetry.update();
-     //   sleep(2000);
+        sleep(2000);
 
         while (angles.firstAngle > angleDegrees || angles.firstAngle < -angleDegrees) {
             if (angles.firstAngle > angleDegrees) {
@@ -324,9 +324,49 @@ public abstract class Team10515Base extends LinearOpMode {
             telemetry.addData("heading", angles.firstAngle);
             telemetry.addData("firstAngle", angles.firstAngle);
             telemetry.update();
-           // sleep(1000);
+            sleep(1000);
         }
     }
+
+
+
+    public void repositionBots(double angleDegrees) {
+
+        Orientation angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+        telemetry.addData("heading", angles.firstAngle);
+        telemetry.addData("firstAngle", angles.firstAngle);
+        telemetry.update();
+        sleep(2000);
+
+        while (angles.firstAngle < angleDegrees || angles.firstAngle > -angleDegrees) {
+            if (angles.firstAngle < angleDegrees) {
+                turnRight(0.5, 0.1);
+
+            } else if (angles.firstAngle > -angleDegrees) {
+                turnLeft(0.5, 0.1);
+            }
+
+            stopRobot();
+            sleep(100);
+            angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+            if(angles.firstAngle < angleDegrees -5 && angles.firstAngle > angleDegrees +5){
+                telemetry.addData("firstAngle", angles.firstAngle);
+                telemetry.update();
+                sleep(1000);
+                break;
+            }
+
+            telemetry.addData("heading", angles.firstAngle);
+            telemetry.addData("firstAngle", angles.firstAngle);
+            telemetry.update();
+            sleep(1000);
+        }
+    }
+
+
+
 
     public double getDistance(){
 
