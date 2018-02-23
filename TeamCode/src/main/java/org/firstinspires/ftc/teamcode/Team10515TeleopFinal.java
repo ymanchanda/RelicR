@@ -106,8 +106,8 @@ public class Team10515TeleopFinal extends OpMode{
             left  = (drive + turn);
             right = (drive - turn);
 
-            robot.rightMotor.setPower(left/2.5);
-            robot.leftMotor.setPower(right/2.5);
+            robot.rightMotor.setPower(left/1.5);
+            robot.leftMotor.setPower(right/1.5);
 
 
     }
