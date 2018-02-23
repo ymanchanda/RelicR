@@ -32,6 +32,7 @@ import java.util.concurrent.TimeUnit;
  */
 
 @Autonomous(name="XtremeV Red", group="Team10515")
+@Disabled
 public class Team10515AutoRed extends Team10515Base {
 
     static final double     INIT_FORWARD_SPEED = 0.1;

@@ -3,31 +3,25 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 /**
- * This program will be used for autonomous Straight mode
- * It uses 2 color sensors.
- *      Rev Color Sensor is used to detect the platform color
- *      Color sensor is used to detect the jewel color
- * Based on the platform color the bot will move the appropriate jewel
- *      If RED  then  move  the blue jewel
- *      If BLUE then  move  the red  jewel
- *
- * Based on the vuforia reading the bot  will place glyph accordingly
- *
+ * This program will go straight  hit the capball  and park the bot at the center vertex
  */
 
-@Autonomous(name="Auto: Straight Slide sensor", group="Team10515")
-public class Team10515AutoStraight_Slide_Sensor extends Team10515Base {
+@Autonomous(name="Auto: TURN Slide Sensor", group="Team10515")
+public class Team10515AutoTurn_Slide_Sensor extends Team10515Base {
 
     static final double     INIT_FORWARD_SPEED = 0.1;
-    static final double     FORWARD_SPEED = 0.4;
+    static final double     FORWARD_SPEED = 0.6;
     static final double     BACKWARD_SPEED = 0.6;
-    static final double     TURN_SPEED    = 0.6;
     static final double     HWHEEL_SPEED = 0.8;
+    static final double     TURN_SPEED    = 0.1;
 
-    static final double ARM_UP_POWER = 0.75;
-    static final double ARM_DOWN_POWER  = -0.5;
+    static final double ARM_UP_POWER = 0.3;
+    static final double ARM_DOWN_POWER  = -0.3;
 
-
+    /**
+     * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
+     * localization engine.
+     */
 
     @Override
     public void runOpMode() {
@@ -40,59 +34,93 @@ public class Team10515AutoStraight_Slide_Sensor extends Team10515Base {
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-
         robot.claw.setPosition(1);
         String platformColor = colorSenseRev();
         sleep(100);
         String glyphPosition = vuforiaCapture();
         telemetry.addData("The position is" ,glyphPosition);
         telemetry.update();
-        sleep(200);
+        sleep(1000);
         liftUp(0.3,0.2);
         stopRobot();
         handDown();
         sleep(100);
         String jewelColor = colorSense();
-        sleep(200);
+        sleep(2000);
 
-        if(platformColor.equals("RED"))
-        {
+        if(platformColor.equals("RED")) {
             moveBlueJewel(jewelColor);
-            sleep(200);
+            sleep(1000);
 
-            goBack(BACKWARD_SPEED,0.6);
+            goBack(FORWARD_SPEED,1.3);
             stopRobot();
-            sleep(200);
+            sleep(1000);
 
-            //turnRight(TURN_SPEED,1.5);
-           repositionBot(1);
-//            stopRobot();
-//            sleep(200);
-        }
-        else
-        {
+            //turnLeft(TURN_SPEED,1.0);
+            repositionBot(-270.0);
+            stopRobot();
+            sleep(1000);
+
+            goStraight(FORWARD_SPEED,.3);
+            stopRobot();
+            sleep(1000);
+
+
+        }else if(platformColor.equals("BLUE")) {
             moveRedJewel(jewelColor);
-            sleep(200);
+            sleep(1000);
 
             hRight(0.4,2.0);
             stopRobot();
-            sleep(200);
+            sleep(500);
 
-            goStraight(FORWARD_SPEED,1.5);
+            goStraight(FORWARD_SPEED,1.2);
             stopRobot();
             sleep(200);
-
 
             repositionBot(1.0);
             stopRobot();
             sleep(200);
 
+            repositionBot(90.0);
+            stopRobot();
+            sleep(1000);
+
         }
 
-       // liftUp(ARM_UP_POWER,0.3);
-       glyphPlacement(glyphPosition,platformColor);
+
+       // glyphPlacement(glyphPosition);
+        glyphPlacement(glyphPosition,platformColor);
 
     }
+
+
+    private void glyphPlacement(String glyphPosition)
+    {
+        if (glyphPosition.equals ("LEFT") || glyphPosition.equals("UNKNOWN"))
+        {
+            hRight(INIT_FORWARD_SPEED,.2);
+        }
+        else if (glyphPosition.equals("RIGHT"))
+        {
+            hRight(INIT_FORWARD_SPEED,.6);
+        }
+        else if (glyphPosition.equals("CENTER"))
+        {
+            hRight(INIT_FORWARD_SPEED,.4);
+
+        }
+
+        liftDown(ARM_DOWN_POWER,0.5);
+        stopRobot();
+        sleep(200);
+
+        goStraight(FORWARD_SPEED,1.5);
+        stopRobot();
+        goBack(BACKWARD_SPEED,0.2);
+        robot.claw.setPosition(0);
+    }
+
 
 
     private void glyphPlacement(String glyphPosition,String platformColor)
@@ -100,19 +128,21 @@ public class Team10515AutoStraight_Slide_Sensor extends Team10515Base {
         if (platformColor.equals("BLUE")) {
 
             if (glyphPosition.equals("LEFT") || glyphPosition.equals("UNKNOWN")) {
-                moveByRange(HWHEEL_SPEED,21.0);
+                moveByRange(HWHEEL_SPEED,43.0);
             } else if (glyphPosition.equals("RIGHT")) {
-                moveByRange(HWHEEL_SPEED,34.0);
-            } else if (glyphPosition.equals("CENTER")) {
-                moveByRange(HWHEEL_SPEED,28.0);
+                moveByRange(HWHEEL_SPEED,56.0);
+            } else if (glyphPosition.equals("CENTER")){
+                moveByRange(HWHEEL_SPEED,50.0);
             }
         }else if (platformColor.equals("RED")){
-
             if (glyphPosition.equals("RIGHT") || glyphPosition.equals("UNKNOWN")) {
+                //         hLeft(HWHEEL_SPEED, .8);
                 moveByRange(HWHEEL_SPEED,21.0);
             } else if (glyphPosition.equals("LEFT")) {
+                // hLeft(HWHEEL_SPEED, 1.8);
                 moveByRange(HWHEEL_SPEED,34.0);
             } else if (glyphPosition.equals("CENTER")) {
+                //hLeft(HWHEEL_SPEED, 1.3);
                 moveByRange(HWHEEL_SPEED,28.0);
             }
 
@@ -126,8 +156,7 @@ public class Team10515AutoStraight_Slide_Sensor extends Team10515Base {
 
         }
 
-      //  repositionBot(1.0);
-        //liftDown(0.4,0.3);
+
         stopRobot();
         sleep(200);
         goStraight(FORWARD_SPEED,1.5 );
@@ -137,26 +166,23 @@ public class Team10515AutoStraight_Slide_Sensor extends Team10515Base {
         stopRobot();
         goBack(BACKWARD_SPEED,0.1);
         stopRobot();
-       // robot.claw.setPosition(0);
+
     }
 
 
     private void moveBlueJewel(String jewelColor) {
 
         if (jewelColor.equals("RED")) {
-          //  turnRight(TURN_SPEED, 0.2);
-            goStraight(FORWARD_SPEED,0.3);
+            turnRight(FORWARD_SPEED, 0.2);
+            // goStraight(FORWARD_SPEED,0.5);
             stopRobot();
             handUp();
-            goBack(BACKWARD_SPEED,0.2);
-          //  turnLeft(TURN_SPEED, 0.2);
+            turnLeft(FORWARD_SPEED, 0.2);
         } else if (jewelColor.equals("BLUE")) {
-         //   turnLeft(TURN_SPEED, 0.2);
-            goBack(BACKWARD_SPEED,0.3);
+            turnLeft(BACKWARD_SPEED, 0.2);
             stopRobot();
             handUp();
-            goStraight(FORWARD_SPEED,0.5);
-           // turnRight(TURN_SPEED, 0.2);
+            turnRight(BACKWARD_SPEED, 0.2);
 
         } else {
             telemetry.addData("Nothing can be done", jewelColor);
@@ -171,16 +197,14 @@ public class Team10515AutoStraight_Slide_Sensor extends Team10515Base {
 
         if (jewelColor.equals("BLUE")) {
             turnRight(FORWARD_SPEED, 0.2);
+            // goStraight(FORWARD_SPEED,0.5);
             stopRobot();
             handUp();
             turnLeft(FORWARD_SPEED, 0.2);
-            stopRobot();
         } else if (jewelColor.equals("RED")) {
             turnLeft(BACKWARD_SPEED, 0.2);
-           // goBack(BACKWARD_SPEED,0.20);
             stopRobot();
             handUp();
-            //goStraight(FORWARD_SPEED,0.5);
             turnRight(BACKWARD_SPEED, 0.2);
 
         } else {
