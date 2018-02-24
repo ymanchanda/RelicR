@@ -60,14 +60,14 @@ public class Team10515AutoStraight_Slide_Sensor extends Team10515Base {
             moveBlueJewel(jewelColor);
             sleep(200);
 
-            goBack(BACKWARD_SPEED,0.6);
+            goBack(BACKWARD_SPEED,0.5);
             stopRobot();
             sleep(200);
 
             //turnRight(TURN_SPEED,1.5);
-           repositionBot(1);
-//            stopRobot();
-//            sleep(200);
+           repositionBotAntiClock(1);
+            stopRobot();
+            sleep(200);
         }
         else
         {
@@ -83,7 +83,7 @@ public class Team10515AutoStraight_Slide_Sensor extends Team10515Base {
             sleep(200);
 
 
-            repositionBot(1.0);
+            repositionBotAntiClock(1.0);
             stopRobot();
             sleep(200);
 

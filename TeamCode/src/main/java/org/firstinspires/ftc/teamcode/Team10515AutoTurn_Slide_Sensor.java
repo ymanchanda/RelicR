@@ -57,7 +57,7 @@ public class Team10515AutoTurn_Slide_Sensor extends Team10515Base {
             sleep(1000);
 
             //turnLeft(TURN_SPEED,1.0);
-            repositionBot(-270.0);
+            repositionBot(-90.0 );
             stopRobot();
             sleep(1000);
 
@@ -78,50 +78,15 @@ public class Team10515AutoTurn_Slide_Sensor extends Team10515Base {
             stopRobot();
             sleep(200);
 
-            repositionBot(1.0);
-            stopRobot();
-            sleep(200);
-
-            repositionBot(90.0);
+            repositionBotAntiClock(90.0);
             stopRobot();
             sleep(1000);
 
         }
 
-
-       // glyphPlacement(glyphPosition);
         glyphPlacement(glyphPosition,platformColor);
 
     }
-
-
-    private void glyphPlacement(String glyphPosition)
-    {
-        if (glyphPosition.equals ("LEFT") || glyphPosition.equals("UNKNOWN"))
-        {
-            hRight(INIT_FORWARD_SPEED,.2);
-        }
-        else if (glyphPosition.equals("RIGHT"))
-        {
-            hRight(INIT_FORWARD_SPEED,.6);
-        }
-        else if (glyphPosition.equals("CENTER"))
-        {
-            hRight(INIT_FORWARD_SPEED,.4);
-
-        }
-
-        liftDown(ARM_DOWN_POWER,0.5);
-        stopRobot();
-        sleep(200);
-
-        goStraight(FORWARD_SPEED,1.5);
-        stopRobot();
-        goBack(BACKWARD_SPEED,0.2);
-        robot.claw.setPosition(0);
-    }
-
-
 
     private void glyphPlacement(String glyphPosition,String platformColor)
     {
@@ -162,7 +127,7 @@ public class Team10515AutoTurn_Slide_Sensor extends Team10515Base {
         goStraight(FORWARD_SPEED,1.5 );
         stopRobot();
         sleep(200);
-        robot.claw.setPosition(0);
+        robot.claw.setPosition(0.5);
         stopRobot();
         goBack(BACKWARD_SPEED,0.1);
         stopRobot();
