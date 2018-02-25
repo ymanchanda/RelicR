@@ -40,35 +40,34 @@ public class Team10515AutoTurn_Slide_Sensor extends Team10515Base {
         String glyphPosition = vuforiaCapture();
         telemetry.addData("The position is" ,glyphPosition);
         telemetry.update();
-        sleep(1000);
+        sleep(100);
         liftUp(0.3,0.2);
         stopRobot();
         handDown();
         sleep(100);
         String jewelColor = colorSense();
-        sleep(2000);
+        sleep(200);
 
         if(platformColor.equals("RED")) {
             moveBlueJewel(jewelColor);
-            sleep(1000);
+            sleep(100);
 
             goBack(FORWARD_SPEED,1.3);
             stopRobot();
-            sleep(1000);
+            sleep(100);
 
-            //turnLeft(TURN_SPEED,1.0);
             repositionBot(-90.0 );
             stopRobot();
-            sleep(1000);
+            sleep(100);
 
             goStraight(FORWARD_SPEED,.3);
             stopRobot();
-            sleep(1000);
+            sleep(100);
 
 
         }else if(platformColor.equals("BLUE")) {
             moveRedJewel(jewelColor);
-            sleep(1000);
+            sleep(100);
 
             hRight(0.4,2.0);
             stopRobot();
@@ -80,7 +79,7 @@ public class Team10515AutoTurn_Slide_Sensor extends Team10515Base {
 
             repositionBotAntiClock(90.0);
             stopRobot();
-            sleep(1000);
+            sleep(100);
 
         }
 
@@ -101,13 +100,10 @@ public class Team10515AutoTurn_Slide_Sensor extends Team10515Base {
             }
         }else if (platformColor.equals("RED")){
             if (glyphPosition.equals("RIGHT") || glyphPosition.equals("UNKNOWN")) {
-                //         hLeft(HWHEEL_SPEED, .8);
                 moveByRange(HWHEEL_SPEED,21.0);
             } else if (glyphPosition.equals("LEFT")) {
-                // hLeft(HWHEEL_SPEED, 1.8);
                 moveByRange(HWHEEL_SPEED,34.0);
             } else if (glyphPosition.equals("CENTER")) {
-                //hLeft(HWHEEL_SPEED, 1.3);
                 moveByRange(HWHEEL_SPEED,28.0);
             }
 

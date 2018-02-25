@@ -314,7 +314,7 @@ public abstract class Team10515Base extends LinearOpMode {
             sleep(100);
             angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
-            if(angles.firstAngle > angleDegrees -5 && angles.firstAngle < angleDegrees +5){
+            if(angles.firstAngle > angleDegrees -8 && angles.firstAngle < angleDegrees +8){
                 telemetry.addData("firstAngle", angles.firstAngle);
                 telemetry.update();
            //   sleep(1000);

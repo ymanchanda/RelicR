@@ -24,7 +24,7 @@ public class Team10515AutoStraight_Slide_Sensor extends Team10515Base {
     static final double     TURN_SPEED    = 0.6;
     static final double     HWHEEL_SPEED = 0.8;
 
-    static final double ARM_UP_POWER = 0.75;
+    static final double ARM_UP_POWER = 0.3;
     static final double ARM_DOWN_POWER  = -0.5;
 
 
@@ -48,7 +48,7 @@ public class Team10515AutoStraight_Slide_Sensor extends Team10515Base {
         telemetry.addData("The position is" ,glyphPosition);
         telemetry.update();
         sleep(200);
-        liftUp(0.3,0.2);
+        liftUp(ARM_UP_POWER,0.2);
         stopRobot();
         handDown();
         sleep(100);
@@ -64,8 +64,7 @@ public class Team10515AutoStraight_Slide_Sensor extends Team10515Base {
             stopRobot();
             sleep(200);
 
-            //turnRight(TURN_SPEED,1.5);
-           repositionBotAntiClock(1);
+        //   repositionBotAntiClock(1);
             stopRobot();
             sleep(200);
         }
@@ -89,7 +88,6 @@ public class Team10515AutoStraight_Slide_Sensor extends Team10515Base {
 
         }
 
-       // liftUp(ARM_UP_POWER,0.3);
        glyphPlacement(glyphPosition,platformColor);
 
     }
@@ -102,18 +100,19 @@ public class Team10515AutoStraight_Slide_Sensor extends Team10515Base {
             if (glyphPosition.equals("LEFT") || glyphPosition.equals("UNKNOWN")) {
                 moveByRange(HWHEEL_SPEED,21.0);
             } else if (glyphPosition.equals("RIGHT")) {
-                moveByRange(HWHEEL_SPEED,34.0);
+                moveByRange(HWHEEL_SPEED,31.0);
             } else if (glyphPosition.equals("CENTER")) {
-                moveByRange(HWHEEL_SPEED,28.0);
+                moveByRange(HWHEEL_SPEED,26.5);
             }
         }else if (platformColor.equals("RED")){
-
+            telemetry.addData("inside","red");
+            telemetry.update();
             if (glyphPosition.equals("RIGHT") || glyphPosition.equals("UNKNOWN")) {
-                moveByRange(HWHEEL_SPEED,21.0);
+                moveByRange(HWHEEL_SPEED,16.5); //21
             } else if (glyphPosition.equals("LEFT")) {
-                moveByRange(HWHEEL_SPEED,34.0);
+                moveByRange(HWHEEL_SPEED,27.0); //34
             } else if (glyphPosition.equals("CENTER")) {
-                moveByRange(HWHEEL_SPEED,28.0);
+                moveByRange(HWHEEL_SPEED,19.0); //28
             }
 
 
@@ -126,18 +125,16 @@ public class Team10515AutoStraight_Slide_Sensor extends Team10515Base {
 
         }
 
-      //  repositionBot(1.0);
-        //liftDown(0.4,0.3);
         stopRobot();
         sleep(200);
         goStraight(FORWARD_SPEED,1.5 );
         stopRobot();
         sleep(200);
-        robot.claw.setPosition(0);
+        robot.claw.setPosition(0.5);
         stopRobot();
         goBack(BACKWARD_SPEED,0.1);
         stopRobot();
-       // robot.claw.setPosition(0);
+
     }
 
 
