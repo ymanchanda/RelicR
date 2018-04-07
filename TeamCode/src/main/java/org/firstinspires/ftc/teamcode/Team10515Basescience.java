@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -10,7 +8,6 @@ import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuMarkInstanceId;
@@ -19,10 +16,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 
-public abstract class Team10515Base extends LinearOpMode {
+public abstract class Team10515Basescience extends LinearOpMode {
 
     /* Declare OpMode members. */
-    Team10515HW robot = new Team10515HW();   // Use our Team 10515 hardware
+    Team10515HWsciencefair robot = new Team10515HWsciencefair();   // Use our Team 10515 hardware
     ElapsedTime runtime = new ElapsedTime();
 
     public static final String TAG = "Vuforia VuMark Sample";
@@ -151,7 +148,7 @@ public abstract class Team10515Base extends LinearOpMode {
 */
 
     public void liftUp(double speed, double time) {
-        //robot.liftMotor.setPower(speed);
+        robot.liftMotor.setPower(speed);
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() <= time)) {
             telemetry.addData("Path", "Leg 2: %2.5f S Elapsed", runtime.seconds());
@@ -161,7 +158,7 @@ public abstract class Team10515Base extends LinearOpMode {
 
 
     public void liftDown(double speed, double time) {
-        // robot.liftMotor.setPower(speed);
+         robot.liftMotor.setPower(speed);
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() <= time)) {
             telemetry.addData("Path", "Leg 2: %2.5f S Elapsed", runtime.seconds());
@@ -224,8 +221,8 @@ public abstract class Team10515Base extends LinearOpMode {
         telemetry.addData("heading", angles.firstAngle);
         telemetry.addData("firstAngle", angles.firstAngle);
 
-        //robot.claw.setPosition(.5);
-        // robot.liftMotor.setPower(ARM_UP_POWER);
+        robot.claw.setPosition(.5);
+        robot.liftMotor.setPower(0);
 
         sleep(2000);
 

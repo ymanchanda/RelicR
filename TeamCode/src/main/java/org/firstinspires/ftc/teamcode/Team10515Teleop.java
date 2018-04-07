@@ -4,11 +4,11 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 
-@TeleOp(name="XtremeV TeleopOld", group="Team10515")
+@TeleOp(name="XtremeV TeleopScience", group="Team10515")
 public class Team10515Teleop extends OpMode{
 
     /* Declare OpMode members. */
-    Team10515HW robot       = new Team10515HW(); // use the class created to define a Pushbot's hardware
+    Team10515HWsciencefair robot       = new Team10515HWsciencefair(); // use the class created to define a Pushbot's hardware
                                                          // could also use HardwarePushbotMatrix class.
     double          clawOffset  = 0.0 ;                  // Servo mid position
     double          relicholdOffset  = 0.0 ;                  // Servo mid position
@@ -69,29 +69,25 @@ public class Team10515Teleop extends OpMode{
 
 
         drive = -gamepad1.left_stick_y;
-        turn  =  gamepad1.right_stick_x;
+        turn = gamepad1.right_stick_x;
         //hWheel = gamepad1.right_stick_x;
         //Arm = gamepad1.right_stick_y;
 
         // Combine drive and turn for blended motion.
-        left  = (drive - turn);
+        left = (drive - turn);
         right = (drive + turn);
 
         // Normalize the values so neither exceed +/- 1.0
         max = Math.max(Math.abs(left), Math.abs(right));
-        if (max > 1.0)
-        {
+        if (max > 1.0) {
             left /= max;
             right /= max;
         }
-        if (FWD)
-        {
+        if (FWD) {
             drive = -gamepad2.left_stick_y;
-            turn  =  gamepad2.right_stick_x;
+            turn = gamepad2.right_stick_x;
 
-        }
-        else
-        {
+        } else {
             robot.rightMotor.setPower(right);
             robot.leftMotor.setPower(left);
         }
@@ -105,7 +101,7 @@ public class Team10515Teleop extends OpMode{
             robot.hWheel.setPower(0.0);
 
         // Use gamepad X & b buttons to open and close the claw
-       if (gamepad1.b){
+        if (gamepad1.b) {
             clawOffset = clawOffset + 0.010;
             if (clawOffset > 1) clawOffset = 1;
             robot.claw.setPosition(1 - clawOffset);
@@ -118,12 +114,14 @@ public class Team10515Teleop extends OpMode{
         // Use gamepad buttons to move the arm up (Y) and down (A)
         if (gamepad1.a) {
             robot.liftMotor.setPower(robot.LIFT_DOWN_POWER);
-        }else if (gamepad1.y) {
+        } else if (gamepad1.y) {
             robot.liftMotor.setPower(robot.LIFT_UP_POWER);
-        }else {
-             robot.liftMotor.setPower(0.0);
+        } else {
+            robot.liftMotor.setPower(0.0);
         }
-        if (gamepad2.a)
+
+    }
+       /* if (gamepad2.a)
         {
             relicarmOffset = relicarmOffset + 0.005;
             if (relicarmOffset > 1) relicarmOffset = 1;
@@ -163,7 +161,7 @@ public class Team10515Teleop extends OpMode{
         //telemetry.addData("right", "%.2f", right);
         updateTelemetry(telemetry);
     }
-
+*/
     /*
      * Code to run ONCE after the driver hits STOP
      */

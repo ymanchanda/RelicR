@@ -87,7 +87,7 @@ public class Team10515AutoRed extends Team10515Base {
        String glyphPosition = vuforiaCapture();
         telemetry.addData("The position is" ,glyphPosition);
         telemetry.update();
-        handDown();
+        //handDown();
         sleep(100);
         //clawClose();
         ElapsedTime time = new ElapsedTime();
@@ -119,7 +119,7 @@ public class Team10515AutoRed extends Team10515Base {
         }
         robot.colorSensor.enableLed(false);
         //sleep(1000);
-        handUp();
+      //  handUp();
 
 
         angles   = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);

@@ -50,14 +50,14 @@ public class Team10515AutoStraight_Slide extends Team10515Base {
         sleep(200);
         liftUp(ARM_UP_POWER,2.0);
         stopRobot();
-        handDown();
+        //handDown();
         sleep(100);
-        String jewelColor = colorSense();
+        //String jewelColor = colorSense();
         sleep(200);
 
         if(platformColor.equals("RED"))
         {
-            moveBlueJewel(jewelColor);
+       //     moveBlueJewel(jewelColor);
             sleep(200);
 
             goBack(BACKWARD_SPEED,0.6);
@@ -75,7 +75,7 @@ public class Team10515AutoStraight_Slide extends Team10515Base {
         }
         else
         {
-            moveRedJewel(jewelColor);
+         //   moveRedJewel(jewelColor);
             sleep(200);
 
             hRight(0.4,2.3);
@@ -153,21 +153,21 @@ public class Team10515AutoStraight_Slide extends Team10515Base {
           //  turnRight(TURN_SPEED, 0.2);
             goStraight(FORWARD_SPEED,0.3);
             stopRobot();
-            handUp();
+           // handUp();
             goBack(BACKWARD_SPEED,0.2);
           //  turnLeft(TURN_SPEED, 0.2);
         } else if (jewelColor.equals("BLUE")) {
          //   turnLeft(TURN_SPEED, 0.2);
             goBack(BACKWARD_SPEED,0.3);
             stopRobot();
-            handUp();
+          //  handUp();
             goStraight(FORWARD_SPEED,0.5);
            // turnRight(TURN_SPEED, 0.2);
 
         } else {
             telemetry.addData("Nothing can be done", jewelColor);
             telemetry.update();
-            handUp();
+           // handUp();
         }
 
         stopRobot();
@@ -178,21 +178,21 @@ public class Team10515AutoStraight_Slide extends Team10515Base {
         if (jewelColor.equals("BLUE")) {
             turnRight(FORWARD_SPEED, 0.2);
             stopRobot();
-            handUp();
+        //    handUp();
             turnLeft(FORWARD_SPEED, 0.2);
             stopRobot();
         } else if (jewelColor.equals("RED")) {
             turnLeft(BACKWARD_SPEED, 0.2);
            // goBack(BACKWARD_SPEED,0.20);
             stopRobot();
-            handUp();
+       //     handUp();
             //goStraight(FORWARD_SPEED,0.5);
             turnRight(BACKWARD_SPEED, 0.2);
 
         } else {
             telemetry.addData("Nothing can be done", jewelColor);
             telemetry.update();
-            handUp();
+       //     handUp();
         }
 
         stopRobot();
