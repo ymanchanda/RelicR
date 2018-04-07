@@ -88,12 +88,9 @@ public class Team10515AutoStraight_Slide_Sensor extends Team10515Base {
 
         }
 
-<<<<<<< HEAD
        // liftUp(ARM_UP_POWER,0.3);
        //glyphPlacement(glyphPosition,platformColor);
-=======
-       glyphPlacement(glyphPosition,platformColor);
->>>>>>> b3cfc8de88fd14559cb68393836ded14c7a9c8ab
+       //glyphPlacement(glyphPosition,platformColor);
 
     }
 

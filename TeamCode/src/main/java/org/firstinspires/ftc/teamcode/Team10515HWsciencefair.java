@@ -44,7 +44,7 @@ public class Team10515HWsciencefair
     static final String  LEFT_MOTOR = "LMotor";
     static final String  RIGHT_MOTOR = "RMotor";
     static final String  H_WHEEL = "HWheel";
-   static final String  LIFT_MOTOR = "LiftMotor";
+    static final String  LIFT_MOTOR = "LiftMotor";
   //  static final String  RELIC_SLIDE_MOTOR = "RelicSlideMotor";
     static final String  Claw = "Claw";
     //static final String  Hand = "Hand";
@@ -80,7 +80,7 @@ public class Team10515HWsciencefair
         leftMotor   = hwMap.dcMotor.get(LEFT_MOTOR);
         rightMotor  = hwMap.dcMotor.get(RIGHT_MOTOR);
         hWheel      = hwMap.dcMotor.get(H_WHEEL);
-       // liftMotor   = hwMap.dcMotor.get(LIFT_MOTOR);
+        liftMotor   = hwMap.dcMotor.get(LIFT_MOTOR);
        // relicSlideMotor = hwMap.dcMotor.get(RELIC_SLIDE_MOTOR);
 
         claw   = hwMap.servo.get(Claw);
@@ -96,16 +96,16 @@ public class Team10515HWsciencefair
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
         rightMotor.setDirection((DcMotor.Direction.FORWARD));
         hWheel.setDirection((DcMotor.Direction.FORWARD));
-       liftMotor.setDirection(DcMotor.Direction.REVERSE);
-      //  relicSlideMotor.setDirection(DcMotor.Direction.FORWARD);
+        liftMotor.setDirection(DcMotor.Direction.REVERSE);
+        //  relicSlideMotor.setDirection(DcMotor.Direction.FORWARD);
 
-      //  colorSensor.enableLed(false);
+        //  colorSensor.enableLed(false);
         colorSensorRev.enableLed(false);
-       // rangeSensor.enableLed(false);
+        // rangeSensor.enableLed(false);
 
 
-         claw.setDirection(Servo.Direction.REVERSE);
-       // hand.setDirection(Servo.Direction.REVERSE);
+        claw.setDirection(Servo.Direction.REVERSE);
+        //hand.setDirection(Servo.Direction.REVERSE);
         //relicHold.setDirection(Servo.Direction.REVERSE);
         //relicArm.setDirection(Servo.Direction.REVERSE);
 
@@ -113,10 +113,10 @@ public class Team10515HWsciencefair
         rightMotor.setPower(0);
         leftMotor.setPower(0);
         hWheel.setPower(0);
-       liftMotor.setPower(0);
+        liftMotor.setPower(0);
        // relicSlideMotor.setPower(0);
 
-     //claw.setPosition(.5);
+        //claw.setPosition(.5);
        //hand.setPosition(1);
         //relicHold.setPosition(0);
         //relicArm.setPosition (0);
@@ -126,7 +126,7 @@ public class Team10515HWsciencefair
         leftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         hWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-       // liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
        // relicSlideMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
