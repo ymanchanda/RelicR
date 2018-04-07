@@ -40,35 +40,48 @@ public class Team10515AutoTurn_Slide_Sensor extends Team10515Base {
         String glyphPosition = vuforiaCapture();
         telemetry.addData("The position is" ,glyphPosition);
         telemetry.update();
-        sleep(1000);
+        sleep(100);
         liftUp(0.3,0.2);
         stopRobot();
         //handDown();
         sleep(100);
+<<<<<<< HEAD
         //String jewelColor = colorSense();
         sleep(2000);
 
         if(platformColor.equals("RED")) {
            // moveBlueJewel(jewelColor);
             sleep(1000);
+=======
+        String jewelColor = colorSense();
+        sleep(200);
+
+        if(platformColor.equals("RED")) {
+            moveBlueJewel(jewelColor);
+            sleep(100);
+>>>>>>> b3cfc8de88fd14559cb68393836ded14c7a9c8ab
 
             goBack(FORWARD_SPEED,1.3);
             stopRobot();
-            sleep(1000);
+            sleep(100);
 
-            //turnLeft(TURN_SPEED,1.0);
-            repositionBot(-270.0);
+            repositionBot(-90.0 );
             stopRobot();
-            sleep(1000);
+            sleep(100);
 
             goStraight(FORWARD_SPEED,.3);
             stopRobot();
-            sleep(1000);
+            sleep(100);
 
 
         }else if(platformColor.equals("BLUE")) {
+<<<<<<< HEAD
            // moveRedJewel(jewelColor);
             sleep(1000);
+=======
+            moveRedJewel(jewelColor);
+            sleep(100);
+>>>>>>> b3cfc8de88fd14559cb68393836ded14c7a9c8ab
 
             hRight(0.4,2.0);
             stopRobot();
@@ -78,16 +91,13 @@ public class Team10515AutoTurn_Slide_Sensor extends Team10515Base {
             stopRobot();
             sleep(200);
 
-            repositionBot(1.0);
+            repositionBotAntiClock(90.0);
             stopRobot();
-            sleep(200);
-
-            repositionBot(90.0);
-            stopRobot();
-            sleep(1000);
+            sleep(100);
 
         }
 
+<<<<<<< HEAD
 
        // glyphPlacement(glyphPosition);
        // glyphPlacement(glyphPosition,platformColor);
@@ -124,6 +134,13 @@ public class Team10515AutoTurn_Slide_Sensor extends Team10515Base {
 
 
    /* private void glyphPlacement(String glyphPosition,String platformColor)
+=======
+        glyphPlacement(glyphPosition,platformColor);
+
+    }
+
+    private void glyphPlacement(String glyphPosition,String platformColor)
+>>>>>>> b3cfc8de88fd14559cb68393836ded14c7a9c8ab
     {
         if (platformColor.equals("BLUE")) {
 
@@ -136,13 +153,10 @@ public class Team10515AutoTurn_Slide_Sensor extends Team10515Base {
             }
         }else if (platformColor.equals("RED")){
             if (glyphPosition.equals("RIGHT") || glyphPosition.equals("UNKNOWN")) {
-                //         hLeft(HWHEEL_SPEED, .8);
                 moveByRange(HWHEEL_SPEED,21.0);
             } else if (glyphPosition.equals("LEFT")) {
-                // hLeft(HWHEEL_SPEED, 1.8);
                 moveByRange(HWHEEL_SPEED,34.0);
             } else if (glyphPosition.equals("CENTER")) {
-                //hLeft(HWHEEL_SPEED, 1.3);
                 moveByRange(HWHEEL_SPEED,28.0);
             }
 
@@ -162,7 +176,7 @@ public class Team10515AutoTurn_Slide_Sensor extends Team10515Base {
         goStraight(FORWARD_SPEED,1.5 );
         stopRobot();
         sleep(200);
-        robot.claw.setPosition(0);
+        robot.claw.setPosition(0.5);
         stopRobot();
         goBack(BACKWARD_SPEED,0.1);
         stopRobot();

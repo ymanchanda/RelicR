@@ -297,7 +297,7 @@ public abstract class Team10515Base extends LinearOpMode {
         telemetry.addData("heading", angles.firstAngle);
         telemetry.addData("firstAngle", angles.firstAngle);
         telemetry.update();
-        sleep(2000);
+       // sleep(2000);
 
         while (angles.firstAngle > angleDegrees || angles.firstAngle < -angleDegrees) {
             if (angles.firstAngle > angleDegrees) {
@@ -311,53 +311,69 @@ public abstract class Team10515Base extends LinearOpMode {
             sleep(100);
             angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
+<<<<<<< HEAD
             if (angles.firstAngle > angleDegrees - 5 && angles.firstAngle < angleDegrees + 5) {
                 telemetry.addData("firstAngle", angles.firstAngle);
                 telemetry.update();
                 sleep(1000);
+=======
+            if(angles.firstAngle > angleDegrees -8 && angles.firstAngle < angleDegrees +8){
+                telemetry.addData("firstAngle", angles.firstAngle);
+                telemetry.update();
+           //   sleep(1000);
+>>>>>>> b3cfc8de88fd14559cb68393836ded14c7a9c8ab
                 break;
             }
 
             telemetry.addData("heading", angles.firstAngle);
             telemetry.addData("firstAngle", angles.firstAngle);
             telemetry.update();
-            sleep(1000);
+           // sleep(1000);
         }
     }
 
 
+<<<<<<< HEAD
     public void repositionBots(double angleDegrees) {
+=======
+
+    public void repositionBotAntiClock(double angleDegrees) {
+>>>>>>> b3cfc8de88fd14559cb68393836ded14c7a9c8ab
 
         Orientation angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
         telemetry.addData("heading", angles.firstAngle);
         telemetry.addData("firstAngle", angles.firstAngle);
         telemetry.update();
-        sleep(2000);
+        //sleep(2000);
 
         while (angles.firstAngle < angleDegrees || angles.firstAngle > -angleDegrees) {
             if (angles.firstAngle < angleDegrees) {
-                turnRight(0.5, 0.1);
+                turnLeft(0.5, 0.1);
 
             } else if (angles.firstAngle > -angleDegrees) {
-                turnLeft(0.5, 0.1);
+                turnRight(0.5, 0.1);
             }
 
             stopRobot();
             sleep(100);
             angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
+<<<<<<< HEAD
             if (angles.firstAngle < angleDegrees - 5 && angles.firstAngle > angleDegrees + 5) {
+=======
+            if(angles.firstAngle > angleDegrees -5 && angles.firstAngle < angleDegrees +5){
+>>>>>>> b3cfc8de88fd14559cb68393836ded14c7a9c8ab
                 telemetry.addData("firstAngle", angles.firstAngle);
                 telemetry.update();
-                sleep(1000);
+              //  sleep(1000);
                 break;
             }
 
             telemetry.addData("heading", angles.firstAngle);
             telemetry.addData("firstAngle", angles.firstAngle);
             telemetry.update();
-            sleep(1000);
+          //  sleep(1000);
         }
     }
 

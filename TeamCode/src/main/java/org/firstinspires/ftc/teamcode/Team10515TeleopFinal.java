@@ -156,7 +156,7 @@ public class Team10515TeleopFinal extends OpMode{
            }
         }
 
-        if (gamepad1.a){
+        if (gamepad1.y){
 
            int pos = counter % 3;
           switch (pos) {

@@ -16,7 +16,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
  */
 
 @Autonomous(name="Auto: Straight Slide sensor", group="Team10515")
-public class Team10515AutoStraight_Slide_Sensor extends Team10515Base {
+public class Team10515AutoStraight_Slide_Sensor_Test extends Team10515Base {
 
     static final double     INIT_FORWARD_SPEED = 0.1;
     static final double     FORWARD_SPEED = 0.4;
@@ -50,14 +50,14 @@ public class Team10515AutoStraight_Slide_Sensor extends Team10515Base {
         sleep(200);
         liftUp(ARM_UP_POWER,0.2);
         stopRobot();
-        //handDown();
+        handDown();
         sleep(100);
-        //String jewelColor = colorSense();
+        String jewelColor = colorSense();
         sleep(200);
 
         if(platformColor.equals("RED"))
         {
-           // moveBlueJewel(jewelColor);
+            moveBlueJewel(jewelColor);
             sleep(200);
 
             goBack(BACKWARD_SPEED,0.5);
@@ -70,7 +70,7 @@ public class Team10515AutoStraight_Slide_Sensor extends Team10515Base {
         }
         else
         {
-          //  moveRedJewel(jewelColor);
+            moveRedJewel(jewelColor);
             sleep(200);
 
             hRight(0.4,2.0);
@@ -88,16 +88,11 @@ public class Team10515AutoStraight_Slide_Sensor extends Team10515Base {
 
         }
 
-<<<<<<< HEAD
-       // liftUp(ARM_UP_POWER,0.3);
-       //glyphPlacement(glyphPosition,platformColor);
-=======
-       glyphPlacement(glyphPosition,platformColor);
->>>>>>> b3cfc8de88fd14559cb68393836ded14c7a9c8ab
+    //   glyphPlacement(glyphPosition,platformColor);
 
     }
 
-/*
+
     private void glyphPlacement(String glyphPosition,String platformColor)
     {
         if (platformColor.equals("BLUE")) {
@@ -141,7 +136,7 @@ public class Team10515AutoStraight_Slide_Sensor extends Team10515Base {
         stopRobot();
 
     }
-*/
+
 
     private void moveBlueJewel(String jewelColor) {
 
@@ -149,21 +144,21 @@ public class Team10515AutoStraight_Slide_Sensor extends Team10515Base {
           //  turnRight(TURN_SPEED, 0.2);
             goStraight(FORWARD_SPEED,0.3);
             stopRobot();
-           // handUp();
+            handUp();
             goBack(BACKWARD_SPEED,0.2);
           //  turnLeft(TURN_SPEED, 0.2);
         } else if (jewelColor.equals("BLUE")) {
          //   turnLeft(TURN_SPEED, 0.2);
             goBack(BACKWARD_SPEED,0.3);
             stopRobot();
-           // handUp();
+            handUp();
             goStraight(FORWARD_SPEED,0.5);
            // turnRight(TURN_SPEED, 0.2);
 
         } else {
             telemetry.addData("Nothing can be done", jewelColor);
             telemetry.update();
-          //  handUp();
+            handUp();
         }
 
         stopRobot();
@@ -174,21 +169,21 @@ public class Team10515AutoStraight_Slide_Sensor extends Team10515Base {
         if (jewelColor.equals("BLUE")) {
             turnRight(FORWARD_SPEED, 0.2);
             stopRobot();
-           // handUp();
+            handUp();
             turnLeft(FORWARD_SPEED, 0.2);
             stopRobot();
         } else if (jewelColor.equals("RED")) {
             turnLeft(BACKWARD_SPEED, 0.2);
            // goBack(BACKWARD_SPEED,0.20);
             stopRobot();
-            //handUp();
+            handUp();
             //goStraight(FORWARD_SPEED,0.5);
             turnRight(BACKWARD_SPEED, 0.2);
 
         } else {
             telemetry.addData("Nothing can be done", jewelColor);
             telemetry.update();
-           // handUp();
+            handUp();
         }
 
         stopRobot();

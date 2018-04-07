@@ -48,14 +48,18 @@ public class Team10515AutoTest extends Team10515Base {
 
        // turnLeft(0.5,0.2);
 
-
-       // stopRobot();
-
-        repositionBot(-270);
-
+/*        repositionBot(-180);
+        stopRobot();
+        sleep(500);
+        repositionBot(-90);
         stopRobot();
 
-        repositionBot(45);
+        sleep(2000);*/
+//       repositionBot(-45);
+
+  //      stopRobot();
+
+       repositionBotAntiClock(90);
         stopRobot();
 
       /*  double currentDistance = getDistance();

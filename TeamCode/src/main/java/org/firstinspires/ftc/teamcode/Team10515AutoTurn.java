@@ -1,12 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 /**
  * This program will go straight  hit the capball  and park the bot at the center vertex
  */
 
 @Autonomous(name="Auto: TURN", group="Team10515")
+@Disabled
 public class Team10515AutoTurn extends Team10515Base {
 
     static final double     INIT_FORWARD_SPEED = 0.1;
