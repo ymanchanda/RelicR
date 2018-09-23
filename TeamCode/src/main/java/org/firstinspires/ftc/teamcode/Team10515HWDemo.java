@@ -30,14 +30,14 @@ public class Team10515HWDemo
     public DcMotor  leftRearMotor = null;
 
 
-    public Servo    hand   = null;
+    public Servo    claw   = null;
 
 
     static final String  LEFT_FRONT_MOTOR = "LFMotor";
     static final String  LEFT_REAR_MOTOR = "LRMotor";
     static final String  RIGHT_FRONT_MOTOR = "RFMotor";
     static final String  RIGHT_REAR_MOTOR = "RRMotor";
-    static final String  Hand = "Hand";
+    static final String  CLAW = "claw";
 
 
 
@@ -62,7 +62,7 @@ public class Team10515HWDemo
         rightFrontMotor  = hwMap.dcMotor.get(RIGHT_FRONT_MOTOR);
         rightRearMotor  = hwMap.dcMotor.get(RIGHT_REAR_MOTOR);
 
-        hand   = hwMap.servo.get(Hand);
+        claw  = hwMap.servo.get(CLAW);
 
 
         leftFrontMotor.setDirection(DcMotor.Direction.REVERSE);
@@ -70,7 +70,7 @@ public class Team10515HWDemo
         rightFrontMotor.setDirection((DcMotor.Direction.FORWARD));
         rightRearMotor.setDirection((DcMotor.Direction.FORWARD));
 
-        hand.setDirection(Servo.Direction.REVERSE);
+        claw.setDirection(Servo.Direction.REVERSE);
 
 
         // Set all motors to zero power
@@ -80,7 +80,7 @@ public class Team10515HWDemo
         leftRearMotor.setPower(0);
 
 
-        hand.setPosition(0);
+        claw.setPosition(0);
 
 
         // Set all motors to run without encoders.
