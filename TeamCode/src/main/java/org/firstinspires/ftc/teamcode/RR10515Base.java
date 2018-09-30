@@ -17,6 +17,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuMarkInstanceId;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
+import com.qualcomm.robotcore.util.Range;
 
 
 public abstract class RR10515Base extends LinearOpMode {
@@ -36,8 +37,8 @@ public abstract class RR10515Base extends LinearOpMode {
 
     public void goStraight(double speed, double period) {
 
-        robot.leftMotor.setPower(speed);
-        robot.rightMotor.setPower(speed);
+        robot.BLeftMotor.setPower(speed);
+        robot.BRightMotor.setPower(speed);
 
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < period)) {
@@ -45,11 +46,74 @@ public abstract class RR10515Base extends LinearOpMode {
             //  telemetry.update();
         }
     }
+   /* public void driveStraightDistance(int tenthsOfIn, int masterPower)
+    {
+        int tickGoal = (42 * tenthsOfIn) / 10;
+
+        //This will count up the total encoder ticks despite the fact that the encoders are constantly reset.
+        int totalTicks = 0;
+
+        //Initialise slavePower as masterPower - 5 so we don't get huge error for the first few iterations. The
+        //-5 value is based off a rough guess of how much the motors are different, which prevents the robot from
+        //veering off course at the start of the function.
+        int slavePower = masterPower - 5;
+
+        int error = 0;
+
+        int kp = 5;
+
+        SensorValue[leftEncoder] = 0;
+        SensorValue[rightEncoder] = 0;
+
+        //Monitor 'totalTicks', instead of the values of the encoders which are constantly reset.
+        while(abs(totalTicks) < tickGoal)
+        {
+            //Proportional algorithm to keep the robot going straight.
+            motor[leftServo] = masterPower;
+            motor[rightServo] = slavePower;
+
+            error = SensorValue[leftEncoder] - SensorValue[rightEncoder];
+
+            slavePower += error / kp;
+
+            SensorValue[leftEncoder] = 0;
+            SensorValue[rightEncoder] = 0;
+
+            wait1Msec(100);
+
+            //Add this iteration's encoder values to totalTicks.
+            totalTicks+= SensorValue[leftEncoder];
+        }
+        motor[leftServo] = 0; // Stop the loop once the encoders have counted up the correct number of encoder ticks.
+        motor[rightServo] = 0;
+    }
+    */
+   public void mechmove (double myangle, double mypower, float myrot) {
+       if (robot.FleftMotor != null && robot.BLeftMotor != null && robot.FrightMotor != null && robot.BRightMotor != null)
+       {
+           robot.FleftMotor.setPower(Range.clip(myrot + (mypower * ((Math.sin((myangle + 135) / 180 * 3.141592)))), -1, 1));
+           robot.BLeftMotor.setPower(Range.clip(myrot + (mypower * ((Math.sin((myangle + 45) / 180 * 3.141592)))), -1, 1));
+           robot.FrightMotor.setPower(Range.clip(-myrot + (mypower * ((Math.sin((myangle + 45) / 180 * 3.141592)))), -1, 1));
+           robot.BRightMotor.setPower(Range.clip(-myrot + (mypower * ((Math.sin((myangle + 135) / 180 * 3.141592)))), -1, 1));
+       }
+   }
+   public void moveEncoder(int rotations)
+   {
+    int in1 = robot.FrightMotor.getCurrentPosition();
+       int in2 = robot.FleftMotor.getCurrentPosition();
+       int in4 = robot.BRightMotor.getCurrentPosition();
+       int in3 = robot.BLeftMotor.getCurrentPosition();
+    robot.FrightMotor.setTargetPosition(in1+rotations);
+    robot.FleftMotor.setTargetPosition(in2+rotations);
+    robot.BLeftMotor.setTargetPosition(in3+rotations);
+    robot.BRightMotor.setTargetPosition(in4+rotations);
+
+   }
 
     public void goBack(double speed, double period) {
 
-        robot.leftMotor.setPower(-speed);
-        robot.rightMotor.setPower(-speed);
+        robot.BLeftMotor.setPower(-speed);
+        robot.BRightMotor.setPower(-speed);
 
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < period)) {
@@ -61,8 +125,8 @@ public abstract class RR10515Base extends LinearOpMode {
     public void turnRight(double speed, double period) {
 
         //  Spin right x seconds
-        robot.leftMotor.setPower(speed);
-        robot.rightMotor.setPower(-speed);
+        robot.BLeftMotor.setPower(speed);
+        robot.BRightMotor.setPower(-speed);
 
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < period)) {
@@ -74,8 +138,8 @@ public abstract class RR10515Base extends LinearOpMode {
     public void turnLeft(double speed, double period) {
 
         //  Spin Left for x seconds
-        robot.leftMotor.setPower(-speed);
-        robot.rightMotor.setPower(speed);
+        robot.BLeftMotor.setPower(-speed);
+        robot.BRightMotor.setPower(speed);
 
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < period)) {
@@ -86,10 +150,10 @@ public abstract class RR10515Base extends LinearOpMode {
     }
 
     public void stopRobot() {
-        robot.leftMotor.setPower(0.0);
-        robot.rightMotor.setPower(0.0);
+        robot.BLeftMotor.setPower(0.0);
+        robot.BRightMotor.setPower(0.0);
         // robot.liftMotor.setPower(0.0);
-        robot.hWheel.setPower(0.0);
+        //robot.hWheel.setPower(0.0);
     }
 
     /* public void handUp() {
@@ -107,6 +171,7 @@ public abstract class RR10515Base extends LinearOpMode {
          robot.claw.setPosition(1);
      }
  */
+    /*
     public void clawClose() {
         robot.claw.setPosition(0);
     }
@@ -128,8 +193,8 @@ public abstract class RR10515Base extends LinearOpMode {
             //telemetry.update();
         }
     }
-
-   /* public void moveByRange(double speed,double distanceToWall) {
+*/
+   /*public void moveByRange(double speed,double distanceToWall) {
 
         while (opModeIsActive() && getDistance() > distanceToWall ) {
             //hLeft(0.8, 0.3);

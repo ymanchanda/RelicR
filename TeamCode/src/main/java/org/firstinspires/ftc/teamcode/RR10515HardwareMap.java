@@ -124,10 +124,10 @@ public class RR10515HardwareMap
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
-        FleftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        FrightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        BLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        BRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        FleftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        FrightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        BLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        BRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         // relicSlideMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 

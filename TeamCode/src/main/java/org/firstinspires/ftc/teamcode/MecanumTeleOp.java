@@ -129,7 +129,7 @@ public class MecanumTeleOp extends OpMode
         robot.BLeftMotor.setPower(leftRear);
         robot.BRightMotor.setPower(rightRear);
 
-  /*     double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
+ /*    double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
        double robotAngle = Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
        double rightX = gamepad1.right_stick_x;
       final double v1 = r * Math.cos(robotAngle) + rightX;
@@ -141,7 +141,7 @@ public class MecanumTeleOp extends OpMode
          robot.FrightMotor.setPower(v2);
         robot.BLeftMotor.setPower(v3);
       robot.BRightMotor.setPower(v4);
-*/
+      */
           /*  double left;
             double right;
             double drive;
