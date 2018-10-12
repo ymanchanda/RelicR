@@ -1,5 +1,3 @@
-
-
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
@@ -12,7 +10,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcontroller.external.samples.ConceptVuforiaNavigation;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
-import org.firstinspires.ftc.robotcore.external.Func;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -26,25 +23,20 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
-import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-    /**
-     * This program will go straight  hit the capball  and park the bot at the center vertex
-     */
 
-    @Autonomous(name="Encoder Test", group="Team10515")
-
-    public class RRAutoTest1 extends RR10515Base
-    {
+/**
+ * Created by Yogi on 9/30/2018.
+ */
+@Autonomous(name="Sri Test", group="Team10515")
+public class SriTest extends RR10515Base
+{
 
         static final double INIT_FORWARD_SPEED = 0.1;
-        static final double FORWARD_SPEED = 0.4;
-        static final double BACKWARD_SPEED = 0.4;
+        static final double FORWARD_SPEED = 0.2;
+        static final double BACKWARD_SPEED = 0.1;
         static final double TURN_SPEED = 0.1;
-
-        private static final double CIRCUMFERENCE = 12.35;
-        private static final double SIDEWAYS = 15.25;
 
 
         boolean redColor = false;
@@ -58,7 +50,7 @@ import java.util.concurrent.TimeUnit;
          * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
          * localization engine.
          */
-        //VuforiaLocalizer vuforia;
+        VuforiaLocalizer vuforia;
 
 
         @Override
@@ -73,14 +65,6 @@ import java.util.concurrent.TimeUnit;
             robot.init(hardwareMap);
             //robot.colorSensor.enableLed(false);
             //calibrateGyro();
-            Orientation angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-
-            //String angle = formatAngle(angles.angleUnit, angles.firstAngle);
-
-            //telemetry.addData("heading",angle);
-            //telemetry.addData("firstAngle",angles.firstAngle);
-
-
             //sleep(2000);
 
             // Send telemetry message to signify robotrt waiting;
@@ -89,12 +73,14 @@ import java.util.concurrent.TimeUnit;
 
             // Wait for the game to start (driver presses PLAY)
             waitForStart();
-
-           // mechmove(180,0.5,5);
-            //stopRobot();
-            //delay(100);
-           // moveStraightEncoder(1120,0.5);
-            moveRSideEncoder(1120,0.5);
+            goStraight(0.5, 10.0);
+            goBack(0.5, 10.0);
+            turnLeft(0.5, 10.0);
+            turnRight(0.5, 10.0);
 
         }
     }
+
+
+
+

@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -26,7 +27,7 @@ public abstract class RR10515Base extends LinearOpMode {
     RR10515HardwareMap robot = new RR10515HardwareMap();   // Use our Team 10515 hardware
     ElapsedTime runtime = new ElapsedTime();
 
-    public static final String TAG = "Vuforia VuMark Sample";
+    //public static final String TAG = "Vuforia VuMark Sample";
     //public static final double ARM_DOWN_POWER  = 0.3;
     //public static final double ARM_UP_POWER  = -0.3;
 
@@ -35,7 +36,8 @@ public abstract class RR10515Base extends LinearOpMode {
 
     VuforiaLocalizer vuforia;
 
-    public void goStraight(double speed, double period) {
+    public void goStraight(double speed, double period)
+    {
 
         robot.BLeftMotor.setPower(speed);
         robot.BRightMotor.setPower(speed);
@@ -45,6 +47,17 @@ public abstract class RR10515Base extends LinearOpMode {
             telemetry.addData("Path", "Leg 2: %2.5f S Elapsed", runtime.seconds());
             //  telemetry.update();
         }
+    }
+    public void goStraight(double speed)
+    {
+
+        robot.BLeftMotor.setPower(speed);
+        robot.BRightMotor.setPower(speed);
+        robot.FleftMotor.setPower(speed);
+        robot.FrightMotor.setPower(speed);
+
+        runtime.reset();
+
     }
    /* public void driveStraightDistance(int tenthsOfIn, int masterPower)
     {
@@ -97,9 +110,37 @@ public abstract class RR10515Base extends LinearOpMode {
            robot.BRightMotor.setPower(Range.clip(-myrot + (mypower * ((Math.sin((myangle + 135) / 180 * 3.141592)))), -1, 1));
        }
    }
-   public void moveEncoder(int rotations)
+   public void moveStraightEncoder(int distance,double power)
    {
-    int in1 = robot.FrightMotor.getCurrentPosition();
+       robot.FrightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+       robot.FleftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+       robot.BRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+       robot.BLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+       robot.FrightMotor.setTargetPosition(distance);
+       robot.FleftMotor.setTargetPosition(distance);
+       robot.BRightMotor.setTargetPosition(distance);
+       robot.BLeftMotor.setTargetPosition(distance);
+
+
+       robot.FrightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+       robot.FleftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+       robot.BRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+       robot.BLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+       goStraight(power);
+
+       while(robot.FrightMotor.isBusy()&&robot.FleftMotor.isBusy()&&robot.BRightMotor.isBusy()&& robot.BLeftMotor.isBusy())
+       {
+
+       }
+       stopRobot();
+       robot.FleftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+       robot.FrightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+       robot.BLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+       robot.BRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+   /* int in1 = robot.FrightMotor.getCurrentPosition();
        int in2 = robot.FleftMotor.getCurrentPosition();
        int in4 = robot.BRightMotor.getCurrentPosition();
        int in3 = robot.BLeftMotor.getCurrentPosition();
@@ -107,13 +148,15 @@ public abstract class RR10515Base extends LinearOpMode {
     robot.FleftMotor.setTargetPosition(in2+rotations);
     robot.BLeftMotor.setTargetPosition(in3+rotations);
     robot.BRightMotor.setTargetPosition(in4+rotations);
-
+*/
    }
 
     public void goBack(double speed, double period) {
 
         robot.BLeftMotor.setPower(-speed);
         robot.BRightMotor.setPower(-speed);
+        robot.FleftMotor.setPower(-speed);
+        robot.FrightMotor.setPower(-speed);
 
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < period)) {
@@ -148,10 +191,60 @@ public abstract class RR10515Base extends LinearOpMode {
         }
 
     }
+    public void moveRSideEncoder(int distance,double power)
+    {
+        robot.FrightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.FleftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.BRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.BLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+        robot.FrightMotor.setTargetPosition(distance);
+        robot.FleftMotor.setTargetPosition(-distance);
+        robot.BRightMotor.setTargetPosition(-distance);
+        robot.BLeftMotor.setTargetPosition(distance);
+
+
+        robot.FrightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.FleftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.BRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.BLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        goRightSide(power);
+
+        while(robot.FrightMotor.isBusy()&&robot.FleftMotor.isBusy()&&robot.BRightMotor.isBusy()&& robot.BLeftMotor.isBusy())
+        {
+
+        }
+        stopRobot();
+        robot.FleftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.FrightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.BLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.BRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+   /* int in1 = robot.FrightMotor.getCurrentPosition();
+       int in2 = robot.FleftMotor.getCurrentPosition();
+       int in4 = robot.BRightMotor.getCurrentPosition();
+       int in3 = robot.BLeftMotor.getCurrentPosition();
+    robot.FrightMotor.setTargetPosition(in1+rotations);
+    robot.FleftMotor.setTargetPosition(in2+rotations);
+    robot.BLeftMotor.setTargetPosition(in3+rotations);
+    robot.BRightMotor.setTargetPosition(in4+rotations);
+*/
+    }
+        public void goRightSide(double speed)
+        {
+            robot.BLeftMotor.setPower(speed);
+            robot.BRightMotor.setPower(-speed);
+            robot.FleftMotor.setPower(-speed);
+            robot.FrightMotor.setPower(speed);
+
+
+        }
     public void stopRobot() {
         robot.BLeftMotor.setPower(0.0);
         robot.BRightMotor.setPower(0.0);
+        robot.FrightMotor.setPower(0.0);
+        robot.FleftMotor.setPower(0.0);
         // robot.liftMotor.setPower(0.0);
         //robot.hWheel.setPower(0.0);
     }

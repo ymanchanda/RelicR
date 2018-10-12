@@ -41,10 +41,10 @@ public class RR10515HardwareMap
     public BNO055IMU imu = null;
     //  public ModernRoboticsI2cRangeSensor rangeSensor = null;
 
-    static final String  RightFront = "FrontRight";
-    static final String  LeftFront = "FrontLeft";
-    static final String  RightRear = "BackRight";
-    static final String  LeftRear = "BackLeft";
+    static final String FRIGHT_MOTOR = "FrontRight";
+    static final String  FLEFT_MOTOR = "FrontLeft";
+    static final String  BRIGHT_MOTOR = "BackRight";
+    static final String  BLEFT_MOTOR = "BackLeft";
     //  static final String  RELIC_SLIDE_MOTOR = "RelicSlideMotor";
     //static final String  Claw = "Claw";
     //static final String  Hand = "Hand";
@@ -67,10 +67,10 @@ public class RR10515HardwareMap
     private ElapsedTime period  = new ElapsedTime();
 
     /* Constructor */
-    public RR10515HardwareMap()
-    {
+    //public RR10515HardwareMap()
+    //{
 
-    }
+    //}
 
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap ahwMap) {
@@ -78,10 +78,10 @@ public class RR10515HardwareMap
         hwMap = ahwMap;
 
         // Define and Initialize Motors
-        FleftMotor   = hwMap.dcMotor.get(LeftFront);
-        FrightMotor  = hwMap.dcMotor.get(RightFront);
-        BLeftMotor    = hwMap.dcMotor.get(LeftRear);
-        BRightMotor   = hwMap.dcMotor.get(RightRear);
+        FleftMotor   = hwMap.dcMotor.get(FLEFT_MOTOR);
+        FrightMotor  = hwMap.dcMotor.get(FRIGHT_MOTOR);
+        BLeftMotor    = hwMap.dcMotor.get (BLEFT_MOTOR);
+        BRightMotor   = hwMap.dcMotor.get(BRIGHT_MOTOR);
         // relicSlideMotor = hwMap.dcMotor.get(RELIC_SLIDE_MOTOR);
 
         //claw   = hwMap.servo.get(Claw);
@@ -124,10 +124,10 @@ public class RR10515HardwareMap
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
-        FleftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        FrightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        BLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        BRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        FleftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        FrightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        BLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        BRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         // liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         // relicSlideMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
