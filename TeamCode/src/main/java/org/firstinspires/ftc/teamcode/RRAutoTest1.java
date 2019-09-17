@@ -93,8 +93,15 @@ import java.util.concurrent.TimeUnit;
            // mechmove(180,0.5,5);
             //stopRobot();
             //delay(100);
-           // moveStraightEncoder(1120,0.5);
+           moveStraightEncoder(2240,0.5);
+           stopRobot();
             moveRSideEncoder(1120,0.5);
-
+            stopRobot();
+            moveStraightEncoder(1120,0.5);
+            stopRobot();
+            repositionBot(60.0);
+            stopRobot();
+            moveStraightEncoder(6720,0.5);
+            stopRobot();
         }
     }
